@@ -23,7 +23,7 @@ several mutually choices and then allows the client code to handle them accordin
 ## `Error`
 
 The problem this type helps solve is that instead of using .NET Exception classes for control flow and/or error states 
-this type makes it possible to represent and error state. It can hold useful information and then be used with the 
+this type makes it possible to represent an error state. It can hold useful information and then be used with the 
 `Result<TResult, TError>` type to allow better control flow based off of error states.
 
 ### TODO: show code examples
