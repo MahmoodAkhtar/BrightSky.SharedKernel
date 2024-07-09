@@ -27,3 +27,11 @@ this type makes it possible to represent an error state. It can hold useful info
 `Result<TResult, TError>` type to allow better control flow based off of error states.
 
 ### TODO: show code examples
+
+## `Option<TValue>`
+
+The problem this type helps solve is the reliance on `null`. This type helps represent the idea a value may or may not 
+exit. It can be `Some(...)` or `None` and then there are extension methods which help the client code to handle them 
+accordingly.
+
+### TODO: show code examples
