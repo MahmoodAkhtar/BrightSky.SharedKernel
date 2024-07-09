@@ -30,11 +30,11 @@ public readonly record struct Error
     public static Error NotFound(string code, string description)
         => new(code, description, ErrorType.NotFound);
 
+    public static Error Unauthenticated(string code, string description)
+        => new(code, description, ErrorType.Unauthenticated);
+
     public static Error Unauthorized(string code, string description)
         => new(code, description, ErrorType.Unauthorized);
-
-    public static Error Forbidden(string code, string description)
-        => new(code, description, ErrorType.Forbidden);
 
     public static Error FromException(Exception e)
         => Unexpected(e.GetType().Name, $"{e.Message} {e.StackTrace}");
@@ -42,12 +42,43 @@ public readonly record struct Error
 
 public enum ErrorType
 {
+    /// <summary>
+    /// Precondition and or an attempt for an external resource failed
+    /// </summary>
     Failure,
+    
+    /// <summary>
+    /// Actual exception occured in the system
+    /// </summary>
     Unexpected,
+    
+    /// <summary>
+    /// Validation failed
+    /// </summary>
     Validation,
+    
+    /// <summary>
+    /// System state has progressed therefore unable to carry out desired action 
+    /// </summary>
     Conflict,
+    
+    /// <summary>
+    /// Expected system resource is not found
+    /// </summary>
     NotFound,
+    
+    /// <summary>
+    /// Not authenticated
+    /// </summary>
+    Unauthenticated,
+    
+    /// <summary>
+    /// Don't have permissions to carry out desired action
+    /// </summary>
     Unauthorized,
-    Forbidden,
+    
+    /// <summary>
+    /// For a None Error
+    /// </summary>
     None
 }
