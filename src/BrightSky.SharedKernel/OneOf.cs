@@ -1,6 +1,6 @@
 ﻿namespace BrightSky.SharedKernel;
 
-public interface IOneOf 
+public interface IOneOf
 {
     bool Is<T>();
     T Get<T>();
@@ -11,7 +11,7 @@ public record OneOfBase : IOneOf
 {
     private readonly object _value;
 
-    protected OneOfBase(object value) => _value= value ?? throw new ArgumentNullException(nameof(value));
+    protected OneOfBase(object value) => _value = value ?? throw new ArgumentNullException(nameof(value));
 
     public T Get<T>() => _value is T t ? t : throw new InvalidCastException();
     public bool Is<T>() => _value is T;
@@ -31,26 +31,37 @@ public record OneOfBase : IOneOf
 
 public record OneOf<T1, T2> : OneOfBase
 {
-    protected OneOf(T1 value) : base(value!){}
-    protected OneOf(T2 value) : base(value!){}
+    protected OneOf(T1 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T2 value) : base(value!)
+    {
+    }
 
     public static OneOf<T1, T2> Case(T1 value) => new(value!);
     public static OneOf<T1, T2> Case(T2 value) => new(value!);
-    
+
     public static implicit operator OneOf<T1, T2>(T1 value) => Case(value);
     public static implicit operator OneOf<T1, T2>(T2 value) => Case(value);
-    
+
     public static explicit operator T1(OneOf<T1, T2> oneOf) => oneOf.Get<T1>();
     public static explicit operator T2(OneOf<T1, T2> oneOf) => oneOf.Get<T2>();
-
-
 }
 
 public record OneOf<T1, T2, T3> : OneOfBase
 {
-    protected OneOf(T1 value) : base(value!) { }
-    protected OneOf(T2 value) : base(value!) { }
-    protected OneOf(T3 value) : base(value!) { }
+    protected OneOf(T1 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T2 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T3 value) : base(value!)
+    {
+    }
 
     public static OneOf<T1, T2, T3> Case(T1 value) => new(value!);
     public static OneOf<T1, T2, T3> Case(T2 value) => new(value!);
@@ -67,10 +78,21 @@ public record OneOf<T1, T2, T3> : OneOfBase
 
 public record OneOf<T1, T2, T3, T4> : OneOfBase
 {
-    protected OneOf(T1 value) : base(value!) { }
-    protected OneOf(T2 value) : base(value!) { }
-    protected OneOf(T3 value) : base(value!) { }
-    protected OneOf(T4 value) : base(value!) { }
+    protected OneOf(T1 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T2 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T3 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T4 value) : base(value!)
+    {
+    }
 
     public static OneOf<T1, T2, T3, T4> Case(T1 value) => new(value!);
     public static OneOf<T1, T2, T3, T4> Case(T2 value) => new(value!);
@@ -90,11 +112,25 @@ public record OneOf<T1, T2, T3, T4> : OneOfBase
 
 public record OneOf<T1, T2, T3, T4, T5> : OneOfBase
 {
-    protected OneOf(T1 value) : base(value!) { }
-    protected OneOf(T2 value) : base(value!) { }
-    protected OneOf(T3 value) : base(value!) { }
-    protected OneOf(T4 value) : base(value!) { }
-    protected OneOf(T5 value) : base(value!) { }
+    protected OneOf(T1 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T2 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T3 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T4 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T5 value) : base(value!)
+    {
+    }
 
     public static OneOf<T1, T2, T3, T4, T5> Case(T1 value) => new(value!);
     public static OneOf<T1, T2, T3, T4, T5> Case(T2 value) => new(value!);
@@ -117,12 +153,29 @@ public record OneOf<T1, T2, T3, T4, T5> : OneOfBase
 
 public record OneOf<T1, T2, T3, T4, T5, T6> : OneOfBase
 {
-    protected OneOf(T1 value) : base(value!) { }
-    protected OneOf(T2 value) : base(value!) { }
-    protected OneOf(T3 value) : base(value!) { }
-    protected OneOf(T4 value) : base(value!) { }
-    protected OneOf(T5 value) : base(value!) { }
-    protected OneOf(T6 value) : base(value!) { }
+    protected OneOf(T1 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T2 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T3 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T4 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T5 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T6 value) : base(value!)
+    {
+    }
 
     public static OneOf<T1, T2, T3, T4, T5, T6> Case(T1 value) => new(value!);
     public static OneOf<T1, T2, T3, T4, T5, T6> Case(T2 value) => new(value!);
@@ -148,13 +201,33 @@ public record OneOf<T1, T2, T3, T4, T5, T6> : OneOfBase
 
 public record OneOf<T1, T2, T3, T4, T5, T6, T7> : OneOfBase
 {
-    protected OneOf(T1 value) : base(value!) { }
-    protected OneOf(T2 value) : base(value!) { }
-    protected OneOf(T3 value) : base(value!) { }
-    protected OneOf(T4 value) : base(value!) { }
-    protected OneOf(T5 value) : base(value!) { }
-    protected OneOf(T6 value) : base(value!) { }
-    protected OneOf(T7 value) : base(value!) { }
+    protected OneOf(T1 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T2 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T3 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T4 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T5 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T6 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T7 value) : base(value!)
+    {
+    }
 
     public static OneOf<T1, T2, T3, T4, T5, T6, T7> Case(T1 value) => new(value!);
     public static OneOf<T1, T2, T3, T4, T5, T6, T7> Case(T2 value) => new(value!);
@@ -183,14 +256,37 @@ public record OneOf<T1, T2, T3, T4, T5, T6, T7> : OneOfBase
 
 public record OneOf<T1, T2, T3, T4, T5, T6, T7, T8> : OneOfBase
 {
-    protected OneOf(T1 value) : base(value!) { }
-    protected OneOf(T2 value) : base(value!) { }
-    protected OneOf(T3 value) : base(value!) { }
-    protected OneOf(T4 value) : base(value!) { }
-    protected OneOf(T5 value) : base(value!) { }
-    protected OneOf(T6 value) : base(value!) { }
-    protected OneOf(T7 value) : base(value!) { }
-    protected OneOf(T8 value) : base(value!) { }
+    protected OneOf(T1 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T2 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T3 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T4 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T5 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T6 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T7 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T8 value) : base(value!)
+    {
+    }
 
     public static OneOf<T1, T2, T3, T4, T5, T6, T7, T8> Case(T1 value) => new(value!);
     public static OneOf<T1, T2, T3, T4, T5, T6, T7, T8> Case(T2 value) => new(value!);
@@ -222,15 +318,41 @@ public record OneOf<T1, T2, T3, T4, T5, T6, T7, T8> : OneOfBase
 
 public record OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9> : OneOfBase
 {
-    protected OneOf(T1 value) : base(value!) { }
-    protected OneOf(T2 value) : base(value!) { }
-    protected OneOf(T3 value) : base(value!) { }
-    protected OneOf(T4 value) : base(value!) { }
-    protected OneOf(T5 value) : base(value!) { }
-    protected OneOf(T6 value) : base(value!) { }
-    protected OneOf(T7 value) : base(value!) { }
-    protected OneOf(T8 value) : base(value!) { }
-    protected OneOf(T9 value) : base(value!) { }
+    protected OneOf(T1 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T2 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T3 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T4 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T5 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T6 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T7 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T8 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T9 value) : base(value!)
+    {
+    }
 
     public static OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9> Case(T1 value) => new(value!);
     public static OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9> Case(T2 value) => new(value!);
@@ -265,16 +387,45 @@ public record OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9> : OneOfBase
 
 public record OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : OneOfBase
 {
-    protected OneOf(T1 value) : base(value!) { }
-    protected OneOf(T2 value) : base(value!) { }
-    protected OneOf(T3 value) : base(value!) { }
-    protected OneOf(T4 value) : base(value!) { }
-    protected OneOf(T5 value) : base(value!) { }
-    protected OneOf(T6 value) : base(value!) { }
-    protected OneOf(T7 value) : base(value!) { }
-    protected OneOf(T8 value) : base(value!) { }
-    protected OneOf(T9 value) : base(value!) { }
-    protected OneOf(T10 value) : base(value!) { }
+    protected OneOf(T1 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T2 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T3 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T4 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T5 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T6 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T7 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T8 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T9 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T10 value) : base(value!)
+    {
+    }
 
     public static OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Case(T1 value) => new(value!);
     public static OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> Case(T2 value) => new(value!);
@@ -312,17 +463,49 @@ public record OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> : OneOfBase
 
 public record OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> : OneOfBase
 {
-    protected OneOf(T1 value) : base(value!) { }
-    protected OneOf(T2 value) : base(value!) { }
-    protected OneOf(T3 value) : base(value!) { }
-    protected OneOf(T4 value) : base(value!) { }
-    protected OneOf(T5 value) : base(value!) { }
-    protected OneOf(T6 value) : base(value!) { }
-    protected OneOf(T7 value) : base(value!) { }
-    protected OneOf(T8 value) : base(value!) { }
-    protected OneOf(T9 value) : base(value!) { }
-    protected OneOf(T10 value) : base(value!) { }
-    protected OneOf(T11 value) : base(value!) { }
+    protected OneOf(T1 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T2 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T3 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T4 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T5 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T6 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T7 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T8 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T9 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T10 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T11 value) : base(value!)
+    {
+    }
 
     public static OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Case(T1 value) => new(value!);
     public static OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> Case(T2 value) => new(value!);
@@ -363,18 +546,53 @@ public record OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> : OneOfBase
 
 public record OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> : OneOfBase
 {
-    protected OneOf(T1 value) : base(value!) { }
-    protected OneOf(T2 value) : base(value!) { }
-    protected OneOf(T3 value) : base(value!) { }
-    protected OneOf(T4 value) : base(value!) { }
-    protected OneOf(T5 value) : base(value!) { }
-    protected OneOf(T6 value) : base(value!) { }
-    protected OneOf(T7 value) : base(value!) { }
-    protected OneOf(T8 value) : base(value!) { }
-    protected OneOf(T9 value) : base(value!) { }
-    protected OneOf(T10 value) : base(value!) { }
-    protected OneOf(T11 value) : base(value!) { }
-    protected OneOf(T12 value) : base(value!) { }
+    protected OneOf(T1 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T2 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T3 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T4 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T5 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T6 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T7 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T8 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T9 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T10 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T11 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T12 value) : base(value!)
+    {
+    }
 
     public static OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Case(T1 value) => new(value!);
     public static OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> Case(T2 value) => new(value!);
@@ -402,35 +620,96 @@ public record OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> : OneOfBa
     public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(T11 value) => Case(value);
     public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(T12 value) => Case(value);
 
-    public static explicit operator T1(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> oneOf) => oneOf.Get<T1>();
-    public static explicit operator T2(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> oneOf) => oneOf.Get<T2>();
-    public static explicit operator T3(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> oneOf) => oneOf.Get<T3>();
-    public static explicit operator T4(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> oneOf) => oneOf.Get<T4>();
-    public static explicit operator T5(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> oneOf) => oneOf.Get<T5>();
-    public static explicit operator T6(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> oneOf) => oneOf.Get<T6>();
-    public static explicit operator T7(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> oneOf) => oneOf.Get<T7>();
-    public static explicit operator T8(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> oneOf) => oneOf.Get<T8>();
-    public static explicit operator T9(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> oneOf) => oneOf.Get<T9>();
-    public static explicit operator T10(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> oneOf) => oneOf.Get<T10>();
-    public static explicit operator T11(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> oneOf) => oneOf.Get<T11>();
-    public static explicit operator T12(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> oneOf) => oneOf.Get<T12>();
+    public static explicit operator T1(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> oneOf) =>
+        oneOf.Get<T1>();
+
+    public static explicit operator T2(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> oneOf) =>
+        oneOf.Get<T2>();
+
+    public static explicit operator T3(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> oneOf) =>
+        oneOf.Get<T3>();
+
+    public static explicit operator T4(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> oneOf) =>
+        oneOf.Get<T4>();
+
+    public static explicit operator T5(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> oneOf) =>
+        oneOf.Get<T5>();
+
+    public static explicit operator T6(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> oneOf) =>
+        oneOf.Get<T6>();
+
+    public static explicit operator T7(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> oneOf) =>
+        oneOf.Get<T7>();
+
+    public static explicit operator T8(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> oneOf) =>
+        oneOf.Get<T8>();
+
+    public static explicit operator T9(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> oneOf) =>
+        oneOf.Get<T9>();
+
+    public static explicit operator T10(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> oneOf) =>
+        oneOf.Get<T10>();
+
+    public static explicit operator T11(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> oneOf) =>
+        oneOf.Get<T11>();
+
+    public static explicit operator T12(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> oneOf) =>
+        oneOf.Get<T12>();
 }
 
 public record OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> : OneOfBase
 {
-    protected OneOf(T1 value) : base(value!) { }
-    protected OneOf(T2 value) : base(value!) { }
-    protected OneOf(T3 value) : base(value!) { }
-    protected OneOf(T4 value) : base(value!) { }
-    protected OneOf(T5 value) : base(value!) { }
-    protected OneOf(T6 value) : base(value!) { }
-    protected OneOf(T7 value) : base(value!) { }
-    protected OneOf(T8 value) : base(value!) { }
-    protected OneOf(T9 value) : base(value!) { }
-    protected OneOf(T10 value) : base(value!) { }
-    protected OneOf(T11 value) : base(value!) { }
-    protected OneOf(T12 value) : base(value!) { }
-    protected OneOf(T13 value) : base(value!) { }
+    protected OneOf(T1 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T2 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T3 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T4 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T5 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T6 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T7 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T8 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T9 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T10 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T11 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T12 value) : base(value!)
+    {
+    }
+
+    protected OneOf(T13 value) : base(value!)
+    {
+    }
 
     public static OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Case(T1 value) => new(value!);
     public static OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Case(T2 value) => new(value!);
@@ -446,42 +725,92 @@ public record OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> : On
     public static OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Case(T12 value) => new(value!);
     public static OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> Case(T13 value) => new(value!);
 
-    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T1 value) => Case(value);
-    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T2 value) => Case(value);
-    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T3 value) => Case(value);
-    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T4 value) => Case(value);
-    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T5 value) => Case(value);
-    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T6 value) => Case(value);
-    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T7 value) => Case(value);
-    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T8 value) => Case(value);
-    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T9 value) => Case(value);
-    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T10 value) => Case(value);
-    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T11 value) => Case(value);
-    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T12 value) => Case(value);
-    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T13 value) => Case(value);
+    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T1 value) =>
+        Case(value);
 
-    public static explicit operator T1(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) => oneOf.Get<T1>();
-    public static explicit operator T2(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) => oneOf.Get<T2>();
-    public static explicit operator T3(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) => oneOf.Get<T3>();
-    public static explicit operator T4(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) => oneOf.Get<T4>();
-    public static explicit operator T5(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) => oneOf.Get<T5>();
-    public static explicit operator T6(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) => oneOf.Get<T6>();
-    public static explicit operator T7(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) => oneOf.Get<T7>();
-    public static explicit operator T8(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) => oneOf.Get<T8>();
-    public static explicit operator T9(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) => oneOf.Get<T9>();
-    public static explicit operator T10(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) => oneOf.Get<T10>();
-    public static explicit operator T11(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) => oneOf.Get<T11>();
-    public static explicit operator T12(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) => oneOf.Get<T12>();
-    public static explicit operator T13(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) => oneOf.Get<T13>();
+    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T2 value) =>
+        Case(value);
+
+    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T3 value) =>
+        Case(value);
+
+    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T4 value) =>
+        Case(value);
+
+    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T5 value) =>
+        Case(value);
+
+    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T6 value) =>
+        Case(value);
+
+    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T7 value) =>
+        Case(value);
+
+    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T8 value) =>
+        Case(value);
+
+    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T9 value) =>
+        Case(value);
+
+    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T10 value) =>
+        Case(value);
+
+    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T11 value) =>
+        Case(value);
+
+    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T12 value) =>
+        Case(value);
+
+    public static implicit operator OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(T13 value) =>
+        Case(value);
+
+    public static explicit operator T1(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) =>
+        oneOf.Get<T1>();
+
+    public static explicit operator T2(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) =>
+        oneOf.Get<T2>();
+
+    public static explicit operator T3(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) =>
+        oneOf.Get<T3>();
+
+    public static explicit operator T4(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) =>
+        oneOf.Get<T4>();
+
+    public static explicit operator T5(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) =>
+        oneOf.Get<T5>();
+
+    public static explicit operator T6(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) =>
+        oneOf.Get<T6>();
+
+    public static explicit operator T7(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) =>
+        oneOf.Get<T7>();
+
+    public static explicit operator T8(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) =>
+        oneOf.Get<T8>();
+
+    public static explicit operator T9(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) =>
+        oneOf.Get<T9>();
+
+    public static explicit operator T10(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) =>
+        oneOf.Get<T10>();
+
+    public static explicit operator T11(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) =>
+        oneOf.Get<T11>();
+
+    public static explicit operator T12(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) =>
+        oneOf.Get<T12>();
+
+    public static explicit operator T13(OneOf<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> oneOf) =>
+        oneOf.Get<T13>();
 }
 
 public static class MatchOneOfExtensions
 {
     public static TResult Match
         <T1, T2, TResult>(
-        this OneOf<T1, T2> oneOf,
-        Func<T1, TResult> caseOne,
-        Func<T2, TResult> caseTwo)
+            this OneOf<T1, T2> oneOf,
+            Func<T1, TResult> caseOne,
+            Func<T2, TResult> caseTwo)
     {
         var dict = new Dictionary<Func<bool>, Func<TResult>>
         {
@@ -562,7 +891,7 @@ public static class MatchOneOfExtensions
             Func<T4, TResult> caseFour,
             Func<T5, TResult> caseFive,
             Func<T6, TResult> caseSix)
-            {
+    {
         var dict = new Dictionary<Func<bool>, Func<TResult>>
         {
             { oneOf.Is<T1>, () => caseOne(oneOf.Get<T1>()) },
@@ -857,6 +1186,7 @@ public static class TapOneOfExtensions
         dict.First(x => x.Key()).Value();
         return oneOf;
     }
+
     public static OneOf<T1, T2, T3, T4, T5> Tap
         <T1, T2, T3, T4, T5>(
             this OneOf<T1, T2, T3, T4, T5> oneOf,
@@ -1126,16 +1456,15 @@ public static class TapOneOfExtensions
         dict.First(x => x.Key()).Value();
         return oneOf;
     }
-
 }
 
 public static class MapOneOfExtensions
 {
     public static OneOf<T1Out, T2Out> Map
         <T1In, T2In, T1Out, T2Out>(
-        this OneOf<T1In, T2In> oneOf,
-        Func<T1In, T1Out> caseOne,
-        Func<T2In, T2Out> caseTwo)
+            this OneOf<T1In, T2In> oneOf,
+            Func<T1In, T1Out> caseOne,
+            Func<T2In, T2Out> caseTwo)
     {
         if (oneOf.Is<T1In>()) return caseOne(oneOf.Get<T1In>());
         if (oneOf.Is<T2In>()) return caseTwo(oneOf.Get<T2In>());
@@ -1144,10 +1473,10 @@ public static class MapOneOfExtensions
 
     public static OneOf<T1Out, T2Out, T3Out> Map
         <T1In, T2In, T3In, T1Out, T2Out, T3Out>(
-        this OneOf<T1In, T2In, T3In> oneOf,
-        Func<T1In, T1Out> caseOne,
-        Func<T2In, T2Out> caseTwo,
-        Func<T3In, T3Out> caseThree)
+            this OneOf<T1In, T2In, T3In> oneOf,
+            Func<T1In, T1Out> caseOne,
+            Func<T2In, T2Out> caseTwo,
+            Func<T3In, T3Out> caseThree)
     {
         if (oneOf.Is<T1In>()) return caseOne(oneOf.Get<T1In>());
         if (oneOf.Is<T2In>()) return caseTwo(oneOf.Get<T2In>());
@@ -1251,17 +1580,18 @@ public static class MapOneOfExtensions
     }
 
     public static OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out> Map
-        <T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out>(
-            this OneOf<T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In> oneOf,
-            Func<T1In, T1Out> caseOne,
-            Func<T2In, T2Out> caseTwo,
-            Func<T3In, T3Out> caseThree,
-            Func<T4In, T4Out> caseFour,
-            Func<T5In, T5Out> caseFive,
-            Func<T6In, T6Out> caseSix,
-            Func<T7In, T7Out> caseSeven,
-            Func<T8In, T8Out> caseEight,
-            Func<T9In, T9Out> caseNine)
+    <T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out,
+        T9Out>(
+        this OneOf<T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In> oneOf,
+        Func<T1In, T1Out> caseOne,
+        Func<T2In, T2Out> caseTwo,
+        Func<T3In, T3Out> caseThree,
+        Func<T4In, T4Out> caseFour,
+        Func<T5In, T5Out> caseFive,
+        Func<T6In, T6Out> caseSix,
+        Func<T7In, T7Out> caseSeven,
+        Func<T8In, T8Out> caseEight,
+        Func<T9In, T9Out> caseNine)
     {
         if (oneOf.Is<T1In>()) return caseOne(oneOf.Get<T1In>());
         if (oneOf.Is<T2In>()) return caseTwo(oneOf.Get<T2In>());
@@ -1276,18 +1606,19 @@ public static class MapOneOfExtensions
     }
 
     public static OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out> Map
-        <T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out>(
-            this OneOf<T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In> oneOf,
-            Func<T1In, T1Out> caseOne,
-            Func<T2In, T2Out> caseTwo,
-            Func<T3In, T3Out> caseThree,
-            Func<T4In, T4Out> caseFour,
-            Func<T5In, T5Out> caseFive,
-            Func<T6In, T6Out> caseSix,
-            Func<T7In, T7Out> caseSeven,
-            Func<T8In, T8Out> caseEight,
-            Func<T9In, T9Out> caseNine,
-            Func<T10In, T10Out> caseTen)
+    <T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out,
+        T8Out, T9Out, T10Out>(
+        this OneOf<T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In> oneOf,
+        Func<T1In, T1Out> caseOne,
+        Func<T2In, T2Out> caseTwo,
+        Func<T3In, T3Out> caseThree,
+        Func<T4In, T4Out> caseFour,
+        Func<T5In, T5Out> caseFive,
+        Func<T6In, T6Out> caseSix,
+        Func<T7In, T7Out> caseSeven,
+        Func<T8In, T8Out> caseEight,
+        Func<T9In, T9Out> caseNine,
+        Func<T10In, T10Out> caseTen)
     {
         if (oneOf.Is<T1In>()) return caseOne(oneOf.Get<T1In>());
         if (oneOf.Is<T2In>()) return caseTwo(oneOf.Get<T2In>());
@@ -1303,19 +1634,20 @@ public static class MapOneOfExtensions
     }
 
     public static OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out> Map
-        <T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T11In, T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out>(
-            this OneOf<T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T11In> oneOf,
-            Func<T1In, T1Out> caseOne,
-            Func<T2In, T2Out> caseTwo,
-            Func<T3In, T3Out> caseThree,
-            Func<T4In, T4Out> caseFour,
-            Func<T5In, T5Out> caseFive,
-            Func<T6In, T6Out> caseSix,
-            Func<T7In, T7Out> caseSeven,
-            Func<T8In, T8Out> caseEight,
-            Func<T9In, T9Out> caseNine,
-            Func<T10In, T10Out> caseTen,
-            Func<T11In, T11Out> caseEleven)
+    <T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T11In, T1Out, T2Out, T3Out, T4Out, T5Out, T6Out,
+        T7Out, T8Out, T9Out, T10Out, T11Out>(
+        this OneOf<T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T11In> oneOf,
+        Func<T1In, T1Out> caseOne,
+        Func<T2In, T2Out> caseTwo,
+        Func<T3In, T3Out> caseThree,
+        Func<T4In, T4Out> caseFour,
+        Func<T5In, T5Out> caseFive,
+        Func<T6In, T6Out> caseSix,
+        Func<T7In, T7Out> caseSeven,
+        Func<T8In, T8Out> caseEight,
+        Func<T9In, T9Out> caseNine,
+        Func<T10In, T10Out> caseTen,
+        Func<T11In, T11Out> caseEleven)
     {
         if (oneOf.Is<T1In>()) return caseOne(oneOf.Get<T1In>());
         if (oneOf.Is<T2In>()) return caseTwo(oneOf.Get<T2In>());
@@ -1332,20 +1664,21 @@ public static class MapOneOfExtensions
     }
 
     public static OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out> Map
-        <T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T11In, T12In, T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>(
-            this OneOf<T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T11In, T12In> oneOf,
-            Func<T1In, T1Out> caseOne,
-            Func<T2In, T2Out> caseTwo,
-            Func<T3In, T3Out> caseThree,
-            Func<T4In, T4Out> caseFour,
-            Func<T5In, T5Out> caseFive,
-            Func<T6In, T6Out> caseSix,
-            Func<T7In, T7Out> caseSeven,
-            Func<T8In, T8Out> caseEight,
-            Func<T9In, T9Out> caseNine,
-            Func<T10In, T10Out> caseTen,
-            Func<T11In, T11Out> caseEleven,
-            Func<T12In, T12Out> caseTwelve)
+    <T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T11In, T12In, T1Out, T2Out, T3Out, T4Out, T5Out,
+        T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>(
+        this OneOf<T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T11In, T12In> oneOf,
+        Func<T1In, T1Out> caseOne,
+        Func<T2In, T2Out> caseTwo,
+        Func<T3In, T3Out> caseThree,
+        Func<T4In, T4Out> caseFour,
+        Func<T5In, T5Out> caseFive,
+        Func<T6In, T6Out> caseSix,
+        Func<T7In, T7Out> caseSeven,
+        Func<T8In, T8Out> caseEight,
+        Func<T9In, T9Out> caseNine,
+        Func<T10In, T10Out> caseTen,
+        Func<T11In, T11Out> caseEleven,
+        Func<T12In, T12Out> caseTwelve)
     {
         if (oneOf.Is<T1In>()) return caseOne(oneOf.Get<T1In>());
         if (oneOf.Is<T2In>()) return caseTwo(oneOf.Get<T2In>());
@@ -1362,8 +1695,10 @@ public static class MapOneOfExtensions
         throw new InvalidOperationException();
     }
 
-    public static OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out, T13Out> Map
-        <T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T11In, T12In, T13In, T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out, T13Out>(
+    public static OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out, T13Out>
+        Map
+        <T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T11In, T12In, T13In, T1Out, T2Out, T3Out, T4Out,
+            T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out, T13Out>(
             this OneOf<T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T11In, T12In, T13In> oneOf,
             Func<T1In, T1Out> caseOne,
             Func<T2In, T2Out> caseTwo,
@@ -1394,16 +1729,15 @@ public static class MapOneOfExtensions
         if (oneOf.Is<T13In>()) return caseThirteen(oneOf.Get<T13In>());
         throw new InvalidOperationException();
     }
-
 }
 
 public static class BindOneOfExtensions
 {
     public static OneOf<T1Out, T2Out> Bind
         <T1In, T2In, T1Out, T2Out>(
-        this OneOf<T1In, T2In> oneOf,
-        Func<T1In, OneOf<T1Out, T2Out>> caseOne,
-        Func<T2In, OneOf<T1Out, T2Out>> caseTwo)
+            this OneOf<T1In, T2In> oneOf,
+            Func<T1In, OneOf<T1Out, T2Out>> caseOne,
+            Func<T2In, OneOf<T1Out, T2Out>> caseTwo)
     {
         var dict = new Dictionary<Func<bool>, Func<OneOf<T1Out, T2Out>>>
         {
@@ -1528,15 +1862,15 @@ public static class BindOneOfExtensions
 
     public static OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out> Bind
         <T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out>(
-        this OneOf<T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In> oneOf,
-        Func<T1In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out>> caseOne,
-        Func<T2In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out>> caseTwo,
-        Func<T3In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out>> caseThree,
-        Func<T4In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out>> caseFour,
-        Func<T5In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out>> caseFive,
-        Func<T6In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out>> caseSix,
-        Func<T7In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out>> caseSeven,
-        Func<T8In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out>> caseEight)
+            this OneOf<T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In> oneOf,
+            Func<T1In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out>> caseOne,
+            Func<T2In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out>> caseTwo,
+            Func<T3In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out>> caseThree,
+            Func<T4In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out>> caseFour,
+            Func<T5In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out>> caseFive,
+            Func<T6In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out>> caseSix,
+            Func<T7In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out>> caseSeven,
+            Func<T8In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out>> caseEight)
     {
         var dict = new Dictionary<Func<bool>, Func<OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out>>>
         {
@@ -1555,7 +1889,8 @@ public static class BindOneOfExtensions
     }
 
     public static OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out> Bind
-        <T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out>(
+    <T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out,
+        T9Out>(
         this OneOf<T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In> oneOf,
         Func<T1In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out>> caseOne,
         Func<T2In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out>> caseTwo,
@@ -1567,25 +1902,27 @@ public static class BindOneOfExtensions
         Func<T8In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out>> caseEight,
         Func<T9In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out>> caseNine)
     {
-        var dict = new Dictionary<Func<bool>, Func<OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out>>>
-        {
-            { oneOf.Is<T1In>, () => caseOne(oneOf.Get<T1In>()) },
-            { oneOf.Is<T2In>, () => caseTwo(oneOf.Get<T2In>()) },
-            { oneOf.Is<T3In>, () => caseThree(oneOf.Get<T3In>()) },
-            { oneOf.Is<T4In>, () => caseFour(oneOf.Get<T4In>()) },
-            { oneOf.Is<T5In>, () => caseFive(oneOf.Get<T5In>()) },
-            { oneOf.Is<T6In>, () => caseSix(oneOf.Get<T6In>()) },
-            { oneOf.Is<T7In>, () => caseSeven(oneOf.Get<T7In>()) },
-            { oneOf.Is<T8In>, () => caseEight(oneOf.Get<T8In>()) },
-            { oneOf.Is<T9In>, () => caseNine(oneOf.Get<T9In>()) },
-        };
+        var dict =
+            new Dictionary<Func<bool>, Func<OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out>>>
+            {
+                { oneOf.Is<T1In>, () => caseOne(oneOf.Get<T1In>()) },
+                { oneOf.Is<T2In>, () => caseTwo(oneOf.Get<T2In>()) },
+                { oneOf.Is<T3In>, () => caseThree(oneOf.Get<T3In>()) },
+                { oneOf.Is<T4In>, () => caseFour(oneOf.Get<T4In>()) },
+                { oneOf.Is<T5In>, () => caseFive(oneOf.Get<T5In>()) },
+                { oneOf.Is<T6In>, () => caseSix(oneOf.Get<T6In>()) },
+                { oneOf.Is<T7In>, () => caseSeven(oneOf.Get<T7In>()) },
+                { oneOf.Is<T8In>, () => caseEight(oneOf.Get<T8In>()) },
+                { oneOf.Is<T9In>, () => caseNine(oneOf.Get<T9In>()) },
+            };
 
         var result = dict.First(x => x.Key()).Value();
         return result;
     }
 
     public static OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out> Bind
-        <T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out>(
+    <T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out,
+        T8Out, T9Out, T10Out>(
         this OneOf<T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In> oneOf,
         Func<T1In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out>> caseOne,
         Func<T2In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out>> caseTwo,
@@ -1598,26 +1935,29 @@ public static class BindOneOfExtensions
         Func<T9In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out>> caseNine,
         Func<T10In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out>> caseTen)
     {
-        var dict = new Dictionary<Func<bool>, Func<OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out>>>
-        {
-            { oneOf.Is<T1In>, () => caseOne(oneOf.Get<T1In>()) },
-            { oneOf.Is<T2In>, () => caseTwo(oneOf.Get<T2In>()) },
-            { oneOf.Is<T3In>, () => caseThree(oneOf.Get<T3In>()) },
-            { oneOf.Is<T4In>, () => caseFour(oneOf.Get<T4In>()) },
-            { oneOf.Is<T5In>, () => caseFive(oneOf.Get<T5In>()) },
-            { oneOf.Is<T6In>, () => caseSix(oneOf.Get<T6In>()) },
-            { oneOf.Is<T7In>, () => caseSeven(oneOf.Get<T7In>()) },
-            { oneOf.Is<T8In>, () => caseEight(oneOf.Get<T8In>()) },
-            { oneOf.Is<T9In>, () => caseNine(oneOf.Get<T9In>()) },
-            { oneOf.Is<T10In>, () => caseTen(oneOf.Get<T10In>()) },
-        };
+        var dict =
+            new Dictionary<Func<bool>,
+                Func<OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out>>>
+            {
+                { oneOf.Is<T1In>, () => caseOne(oneOf.Get<T1In>()) },
+                { oneOf.Is<T2In>, () => caseTwo(oneOf.Get<T2In>()) },
+                { oneOf.Is<T3In>, () => caseThree(oneOf.Get<T3In>()) },
+                { oneOf.Is<T4In>, () => caseFour(oneOf.Get<T4In>()) },
+                { oneOf.Is<T5In>, () => caseFive(oneOf.Get<T5In>()) },
+                { oneOf.Is<T6In>, () => caseSix(oneOf.Get<T6In>()) },
+                { oneOf.Is<T7In>, () => caseSeven(oneOf.Get<T7In>()) },
+                { oneOf.Is<T8In>, () => caseEight(oneOf.Get<T8In>()) },
+                { oneOf.Is<T9In>, () => caseNine(oneOf.Get<T9In>()) },
+                { oneOf.Is<T10In>, () => caseTen(oneOf.Get<T10In>()) },
+            };
 
         var result = dict.First(x => x.Key()).Value();
         return result;
     }
 
     public static OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out> Bind
-        <T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T11In, T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out>(
+    <T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T11In, T1Out, T2Out, T3Out, T4Out, T5Out, T6Out,
+        T7Out, T8Out, T9Out, T10Out, T11Out>(
         this OneOf<T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T11In> oneOf,
         Func<T1In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out>> caseOne,
         Func<T2In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out>> caseTwo,
@@ -1631,97 +1971,130 @@ public static class BindOneOfExtensions
         Func<T10In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out>> caseTen,
         Func<T11In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out>> caseEleven)
     {
-        var dict = new Dictionary<Func<bool>, Func<OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out>>>
-        {
-            { oneOf.Is<T1In>, () => caseOne(oneOf.Get<T1In>()) },
-            { oneOf.Is<T2In>, () => caseTwo(oneOf.Get<T2In>()) },
-            { oneOf.Is<T3In>, () => caseThree(oneOf.Get<T3In>()) },
-            { oneOf.Is<T4In>, () => caseFour(oneOf.Get<T4In>()) },
-            { oneOf.Is<T5In>, () => caseFive(oneOf.Get<T5In>()) },
-            { oneOf.Is<T6In>, () => caseSix(oneOf.Get<T6In>()) },
-            { oneOf.Is<T7In>, () => caseSeven(oneOf.Get<T7In>()) },
-            { oneOf.Is<T8In>, () => caseEight(oneOf.Get<T8In>()) },
-            { oneOf.Is<T9In>, () => caseNine(oneOf.Get<T9In>()) },
-            { oneOf.Is<T10In>, () => caseTen(oneOf.Get<T10In>()) },
-            { oneOf.Is<T11In>, () => caseEleven(oneOf.Get<T11In>()) },
-        };
+        var dict =
+            new Dictionary<Func<bool>,
+                Func<OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out>>>
+            {
+                { oneOf.Is<T1In>, () => caseOne(oneOf.Get<T1In>()) },
+                { oneOf.Is<T2In>, () => caseTwo(oneOf.Get<T2In>()) },
+                { oneOf.Is<T3In>, () => caseThree(oneOf.Get<T3In>()) },
+                { oneOf.Is<T4In>, () => caseFour(oneOf.Get<T4In>()) },
+                { oneOf.Is<T5In>, () => caseFive(oneOf.Get<T5In>()) },
+                { oneOf.Is<T6In>, () => caseSix(oneOf.Get<T6In>()) },
+                { oneOf.Is<T7In>, () => caseSeven(oneOf.Get<T7In>()) },
+                { oneOf.Is<T8In>, () => caseEight(oneOf.Get<T8In>()) },
+                { oneOf.Is<T9In>, () => caseNine(oneOf.Get<T9In>()) },
+                { oneOf.Is<T10In>, () => caseTen(oneOf.Get<T10In>()) },
+                { oneOf.Is<T11In>, () => caseEleven(oneOf.Get<T11In>()) },
+            };
 
         var result = dict.First(x => x.Key()).Value();
         return result;
     }
 
     public static OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out> Bind
-        <T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T11In, T12In, T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>(
+    <T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T11In, T12In, T1Out, T2Out, T3Out, T4Out, T5Out,
+        T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>(
         this OneOf<T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T11In, T12In> oneOf,
-        Func<T1In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>> caseOne,
-        Func<T2In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>> caseTwo,
-        Func<T3In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>> caseThree,
-        Func<T4In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>> caseFour,
-        Func<T5In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>> caseFive,
-        Func<T6In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>> caseSix,
-        Func<T7In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>> caseSeven,
-        Func<T8In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>> caseEight,
-        Func<T9In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>> caseNine,
-        Func<T10In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>> caseTen,
-        Func<T11In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>> caseEleven,
-        Func<T12In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>> caseTwelve)
+        Func<T1In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>>
+            caseOne,
+        Func<T2In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>>
+            caseTwo,
+        Func<T3In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>>
+            caseThree,
+        Func<T4In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>>
+            caseFour,
+        Func<T5In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>>
+            caseFive,
+        Func<T6In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>>
+            caseSix,
+        Func<T7In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>>
+            caseSeven,
+        Func<T8In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>>
+            caseEight,
+        Func<T9In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>>
+            caseNine,
+        Func<T10In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>>
+            caseTen,
+        Func<T11In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>>
+            caseEleven,
+        Func<T12In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>>
+            caseTwelve)
     {
-        var dict = new Dictionary<Func<bool>, Func<OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out>>>
-        {
-            { oneOf.Is<T1In>, () => caseOne(oneOf.Get<T1In>()) },
-            { oneOf.Is<T2In>, () => caseTwo(oneOf.Get<T2In>()) },
-            { oneOf.Is<T3In>, () => caseThree(oneOf.Get<T3In>()) },
-            { oneOf.Is<T4In>, () => caseFour(oneOf.Get<T4In>()) },
-            { oneOf.Is<T5In>, () => caseFive(oneOf.Get<T5In>()) },
-            { oneOf.Is<T6In>, () => caseSix(oneOf.Get<T6In>()) },
-            { oneOf.Is<T7In>, () => caseSeven(oneOf.Get<T7In>()) },
-            { oneOf.Is<T8In>, () => caseEight(oneOf.Get<T8In>()) },
-            { oneOf.Is<T9In>, () => caseNine(oneOf.Get<T9In>()) },
-            { oneOf.Is<T10In>, () => caseTen(oneOf.Get<T10In>()) },
-            { oneOf.Is<T11In>, () => caseEleven(oneOf.Get<T11In>()) },
-            { oneOf.Is<T12In>, () => caseTwelve(oneOf.Get<T12In>()) },
-        };
+        var dict =
+            new Dictionary<Func<bool>, Func<OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out,
+                T11Out, T12Out>>>
+            {
+                { oneOf.Is<T1In>, () => caseOne(oneOf.Get<T1In>()) },
+                { oneOf.Is<T2In>, () => caseTwo(oneOf.Get<T2In>()) },
+                { oneOf.Is<T3In>, () => caseThree(oneOf.Get<T3In>()) },
+                { oneOf.Is<T4In>, () => caseFour(oneOf.Get<T4In>()) },
+                { oneOf.Is<T5In>, () => caseFive(oneOf.Get<T5In>()) },
+                { oneOf.Is<T6In>, () => caseSix(oneOf.Get<T6In>()) },
+                { oneOf.Is<T7In>, () => caseSeven(oneOf.Get<T7In>()) },
+                { oneOf.Is<T8In>, () => caseEight(oneOf.Get<T8In>()) },
+                { oneOf.Is<T9In>, () => caseNine(oneOf.Get<T9In>()) },
+                { oneOf.Is<T10In>, () => caseTen(oneOf.Get<T10In>()) },
+                { oneOf.Is<T11In>, () => caseEleven(oneOf.Get<T11In>()) },
+                { oneOf.Is<T12In>, () => caseTwelve(oneOf.Get<T12In>()) },
+            };
 
         var result = dict.First(x => x.Key()).Value();
         return result;
     }
 
-    public static OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out, T13Out> Bind
-        <T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T11In, T12In, T13In, T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out, T13Out>(
-        this OneOf<T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T11In, T12In, T13In> oneOf,
-        Func<T1In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out, T13Out>> caseOne,
-        Func<T2In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out, T13Out>> caseTwo,
-        Func<T3In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out, T13Out>> caseThree,
-        Func<T4In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out, T13Out>> caseFour,
-        Func<T5In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out, T13Out>> caseFive,
-        Func<T6In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out, T13Out>> caseSix,
-        Func<T7In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out, T13Out>> caseSeven,
-        Func<T8In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out, T13Out>> caseEight,
-        Func<T9In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out, T13Out>> caseNine,
-        Func<T10In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out, T13Out>> caseTen,
-        Func<T11In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out, T13Out>> caseEleven,
-        Func<T12In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out, T13Out>> caseTwelve,
-        Func<T13In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out, T13Out>> caseThirteen)
+    public static OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out, T13Out>
+        Bind
+        <T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T11In, T12In, T13In, T1Out, T2Out, T3Out, T4Out,
+            T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out, T13Out>(
+            this OneOf<T1In, T2In, T3In, T4In, T5In, T6In, T7In, T8In, T9In, T10In, T11In, T12In, T13In> oneOf,
+            Func<T1In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out,
+                T13Out>> caseOne,
+            Func<T2In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out,
+                T13Out>> caseTwo,
+            Func<T3In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out,
+                T13Out>> caseThree,
+            Func<T4In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out,
+                T13Out>> caseFour,
+            Func<T5In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out,
+                T13Out>> caseFive,
+            Func<T6In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out,
+                T13Out>> caseSix,
+            Func<T7In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out,
+                T13Out>> caseSeven,
+            Func<T8In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out,
+                T13Out>> caseEight,
+            Func<T9In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out,
+                T13Out>> caseNine,
+            Func<T10In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out,
+                T13Out>> caseTen,
+            Func<T11In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out,
+                T13Out>> caseEleven,
+            Func<T12In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out,
+                T13Out>> caseTwelve,
+            Func<T13In, OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out,
+                T13Out>> caseThirteen)
     {
-        var dict = new Dictionary<Func<bool>, Func<OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out, T11Out, T12Out, T13Out>>>
-        {
-            { oneOf.Is<T1In>, () => caseOne(oneOf.Get<T1In>()) },
-            { oneOf.Is<T2In>, () => caseTwo(oneOf.Get<T2In>()) },
-            { oneOf.Is<T3In>, () => caseThree(oneOf.Get<T3In>()) },
-            { oneOf.Is<T4In>, () => caseFour(oneOf.Get<T4In>()) },
-            { oneOf.Is<T5In>, () => caseFive(oneOf.Get<T5In>()) },
-            { oneOf.Is<T6In>, () => caseSix(oneOf.Get<T6In>()) },
-            { oneOf.Is<T7In>, () => caseSeven(oneOf.Get<T7In>()) },
-            { oneOf.Is<T8In>, () => caseEight(oneOf.Get<T8In>()) },
-            { oneOf.Is<T9In>, () => caseNine(oneOf.Get<T9In>()) },
-            { oneOf.Is<T10In>, () => caseTen(oneOf.Get<T10In>()) },
-            { oneOf.Is<T11In>, () => caseEleven(oneOf.Get<T11In>()) },
-            { oneOf.Is<T12In>, () => caseTwelve(oneOf.Get<T12In>()) },
-            { oneOf.Is<T13In>, () => caseThirteen(oneOf.Get<T13In>()) },
-        };
+        var dict =
+            new Dictionary<Func<bool>, Func<OneOf<T1Out, T2Out, T3Out, T4Out, T5Out, T6Out, T7Out, T8Out, T9Out, T10Out,
+                T11Out, T12Out, T13Out>>>
+            {
+                { oneOf.Is<T1In>, () => caseOne(oneOf.Get<T1In>()) },
+                { oneOf.Is<T2In>, () => caseTwo(oneOf.Get<T2In>()) },
+                { oneOf.Is<T3In>, () => caseThree(oneOf.Get<T3In>()) },
+                { oneOf.Is<T4In>, () => caseFour(oneOf.Get<T4In>()) },
+                { oneOf.Is<T5In>, () => caseFive(oneOf.Get<T5In>()) },
+                { oneOf.Is<T6In>, () => caseSix(oneOf.Get<T6In>()) },
+                { oneOf.Is<T7In>, () => caseSeven(oneOf.Get<T7In>()) },
+                { oneOf.Is<T8In>, () => caseEight(oneOf.Get<T8In>()) },
+                { oneOf.Is<T9In>, () => caseNine(oneOf.Get<T9In>()) },
+                { oneOf.Is<T10In>, () => caseTen(oneOf.Get<T10In>()) },
+                { oneOf.Is<T11In>, () => caseEleven(oneOf.Get<T11In>()) },
+                { oneOf.Is<T12In>, () => caseTwelve(oneOf.Get<T12In>()) },
+                { oneOf.Is<T13In>, () => caseThirteen(oneOf.Get<T13In>()) },
+            };
 
         var result = dict.First(x => x.Key()).Value();
         return result;
     }
-
 }
