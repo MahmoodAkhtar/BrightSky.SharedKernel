@@ -103,4 +103,122 @@ public class PreconditionTests
         Assert.True(option.IsNone);
         Assert.Equal(Option<Error>.None, option);
     }
+
+    [Fact]
+    public void 
+    PreconditionsAddRange_NullOptions_Returns_Empty_Errors()
+    {
+        Option<Error>[] options = null;
+
+        var actual = Preconditions.AddRange(options);
+        
+        Assert.Empty(actual);
+    }
+    
+    [Fact]
+    public void 
+    PreconditionsAddRange_EmptyOptions_Returns_Empty_Errors()
+    {
+        var options = Array.Empty<Option<Error>>();
+
+        var actual = Preconditions.AddRange(options);
+        
+        Assert.Empty(actual);
+    }
+
+    [Fact]
+    public void 
+    PreconditionsAddRange_SingleOptionIsNone_Returns_Empty_Errors()
+    {
+        var option = Option<Error>.None;
+
+        var actual = Preconditions.AddRange(option);
+        
+        Assert.Empty(actual);  
+    }
+    
+    [Fact]
+    public void 
+    PreconditionsAddRange_MultipleOptionsIsNone_Returns_Empty_Errors()
+    {
+        var options = new []
+        {
+            Option<Error>.None,
+            Option<Error>.None,
+            Option<Error>.None,
+        };
+
+        var actual = Preconditions.AddRange(options);
+        
+        Assert.Empty(actual);  
+    }
+    
+    [Fact]
+    public void 
+    PreconditionsAddRange_SingleOptionIsSome_Returns_SingleError()
+    {
+        var expected = Error.Failure("MyCode", "Some description");
+        var option =Option<Error>.Some(expected);
+
+        var actual = Preconditions.AddRange(option);
+        
+        Assert.Single(actual);  
+        Assert.Equal(expected, actual.First());  
+    }
+        
+    [Fact]
+    public void 
+    PreconditionsAddRange_MultipleOptions_Only_SingleOptionIsSome_Returns_SingleError()
+    {
+        var expected = Error.Failure("MyCode", "Some description");
+        var options = new []
+        {
+            Option<Error>.None,
+            expected,
+            Option<Error>.None,
+        };
+
+        var actual = Preconditions.AddRange(options);
+        
+        Assert.Single(actual);  
+        Assert.Equal(expected, actual.First());  
+    }
+    
+    [Fact]
+    public void 
+    PreconditionsAddRange_MultipleOptions_Only_MultipleOptionIsSome_Returns_FirstError()
+    {
+        var expected = Error.Failure("MyCode1", "Some description1");
+        var options = new []
+        {
+            expected,
+            Option<Error>.Some(Error.Failure("MyCode2", "Some description2")),
+            Option<Error>.Some(Error.Failure("MyCode3", "Some description3")),
+        };
+
+        var actual = Preconditions.AddRange(options);
+        
+        Assert.Equal(3, actual.Count());  
+        Assert.Equal(expected, actual.First());  
+    }
+    
+    [Fact]
+    public void 
+    PreconditionsAddRange_MultipleOptions_Only_MultipleOptionIsSomeAndIsNone_Returns_FirstError()
+    {
+        var expected = Error.Failure("MyCode1", "Some description1");
+        var options = new Option<Error>[]
+        {
+            Option<Error>.None,
+            expected,
+            Option<Error>.Some(Error.Failure("MyCode2", "Some description2")),
+            Option<Error>.None,
+            Option<Error>.Some(Error.Failure("MyCode3", "Some description3")),
+        };
+
+        var actual = Preconditions.AddRange(options);
+        
+        Assert.Equal(3, actual.Count());  
+        Assert.Equal(expected, actual.First());  
+    }
 }
