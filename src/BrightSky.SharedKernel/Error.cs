@@ -38,6 +38,19 @@ public readonly record struct Error
 
     public static Error FromException(Exception e)
         => Unexpected(e.GetType().Name, $"{e.Message} {e.StackTrace}");
+
+    public static string GetNameFor(ErrorType value)
+        => value switch
+        {
+            ErrorType.Conflict => nameof(ErrorType.Conflict),          
+            ErrorType.Unexpected => nameof(ErrorType.Unexpected),          
+            ErrorType.Validation => nameof(ErrorType.Validation),          
+            ErrorType.Unauthorized => nameof(ErrorType.Unauthorized),          
+            ErrorType.Unauthenticated => nameof(ErrorType.Unauthenticated),          
+            ErrorType.Failure => nameof(ErrorType.Failure),          
+            ErrorType.NotFound => nameof(ErrorType.NotFound),          
+            _ => nameof(ErrorType.None)
+        };
 }
 
 public enum ErrorType
