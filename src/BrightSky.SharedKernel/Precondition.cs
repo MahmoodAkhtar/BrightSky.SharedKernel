@@ -23,7 +23,6 @@ public static class Precondition
     
     public static Option<Error> OrError<TValue>(this Result<TValue, Error> result, Error error)
         => result.IsFailure ? Option<Error>.Some(error) : Option<Error>.None;
-
 }
 
 public static class Preconditions
