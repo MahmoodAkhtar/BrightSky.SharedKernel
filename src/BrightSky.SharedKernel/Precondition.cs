@@ -1,4 +1,6 @@
-﻿namespace BrightSky.SharedKernel;
+﻿using System.Reflection.Metadata.Ecma335;
+
+namespace BrightSky.SharedKernel;
 
 public static class Precondition
 {
@@ -30,10 +32,17 @@ public static class Preconditions
     public static IEnumerable<Error> AddRange(params Option<Error>[] options)
         => options?.Where(x => x.IsSome).Select(x => x.Value) ?? [];
 
+    private static Option<TException> ToOptionOfException<TException>(this IEnumerable<Error> errors) where TException : Exception
+    {
+        if (!errors.Any()) return Option<TException>.None;
+        var error = errors.First();
+        var ex = (TException)Activator.CreateInstance(typeof(TException), $"{Error.GetNameFor(error.Type)} {error.Code} {error.Description}")!;
+        return ex;
+    }
+    
     public static void Throws<TException>(this IEnumerable<Error> errors) where TException : Exception
     {
-        var error = errors.First();
-        var ex = (TException)Activator.CreateInstance(typeof(TException), $"{error.Code} {error.Description}")!;
-        if (ex is not null) throw ex;
+        var option = errors.ToOptionOfException<TException>();
+        if (option.IsSome) throw option.Value;
     }
 }

@@ -227,4 +227,110 @@ public class PreconditionTests
         Assert.Equal(3, actual.Count);  
         Assert.Equal(expected, actual);  
     }
+    
+    [Fact]
+    public void PreconditionsThrows_EmptyErrors_DoesntThrowException()
+    {
+        var errors = Array.Empty<Error>();
+
+        try
+        {
+            errors.Throws<Exception>();
+        }
+        catch (Exception e)
+        {
+            Assert.True(false);
+            return;
+        }
+        
+        Assert.True(true);
+    }
+    
+    [Fact]
+    public void PreconditionsThrows_SingleError_ThrowsException()
+    {
+        var error = Error.Failure("MyCode", "Some description");
+        var message = $"{Error.GetNameFor(error.Type)} {error.Code} {error.Description}";
+        var errors = new[] { error };
+
+        try
+        {
+            errors.Throws<Exception>();
+        }
+        catch (Exception e)
+        {
+            Assert.IsType<Exception>(e);
+            Assert.Equal(message, e.Message);
+            return;
+        }
+        
+        Assert.True(false);
+    }
+        
+    [Fact]
+    public void PreconditionsThrows_SingleError_ThrowsArgumentException()
+    {
+        var error = Error.Failure("MyCode", "Some description");
+        var message = $"{Error.GetNameFor(error.Type)} {error.Code} {error.Description}";
+        var errors = new[] { error };
+
+        try
+        {
+            errors.Throws<ArgumentException>();
+        }
+        catch (ArgumentException e)
+        {
+            Assert.IsType<ArgumentException>(e);
+            Assert.Equal(message, e.Message);
+            return;
+        }
+        
+        Assert.True(false);
+    }
+            
+    [Fact]
+    public void PreconditionsThrows_MultipleErrors_Throws_Exception()
+    {
+        var error1st = Error.Failure("MyCode1", "Some description1");
+        var error2nd = Error.Failure("MyCode2", "Some description2");
+        var error3rd = Error.Failure("MyCode3", "Some description3");
+        var message = $"{Error.GetNameFor(error1st.Type)} {error1st.Code} {error1st.Description}";
+        var errors = new[] { error1st, error2nd, error3rd };
+
+        try
+        {
+            errors.Throws<Exception>();
+        }
+        catch (Exception e)
+        {
+            Assert.IsType<Exception>(e);
+            Assert.Equal(message, e.Message);
+            return;
+        }
+        
+        Assert.True(false);
+    }
+    
+    [Fact]
+    public void PreconditionsThrows_MultipleErrors_Throws_ArgumentException()
+    {
+        var error1st = Error.Failure("MyCode1", "Some description1");
+        var error2nd = Error.Failure("MyCode2", "Some description2");
+        var error3rd = Error.Failure("MyCode3", "Some description3");
+        var message = $"{Error.GetNameFor(error1st.Type)} {error1st.Code} {error1st.Description}";
+        var errors = new[] { error1st, error2nd, error3rd };
+
+        try
+        {
+            errors.Throws<ArgumentException>();
+        }
+        catch (ArgumentException e)
+        {
+            Assert.IsType<ArgumentException>(e);
+            Assert.Equal(message, e.Message);
+            return;
+        }
+        
+        Assert.True(false);
+    }
 }
