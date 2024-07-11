@@ -13,8 +13,8 @@ public static class Precondition
                 specification.IsSatisfiedBy(success)
                     ? success
                     : Result<TValue, Option<Error>>.Failure(Error.Failure(
-                    $"Precondition.{specification.GetType().Name}",
-                    $"Specification {specification.GetType().Name} was not met")),
+                        $"Precondition.{specification.GetType().Name}",
+                        $"Specification {specification.GetType().Name} was not met")),
             failure => Option<Error>.Some(failure));
     
     public static TValue ThenAssignOrThrow<TValue, TException>(this Result<TValue, Option<Error>> result)
