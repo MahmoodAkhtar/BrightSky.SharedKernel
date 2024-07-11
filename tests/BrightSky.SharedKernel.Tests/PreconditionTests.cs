@@ -51,4 +51,17 @@ public class PreconditionTests
         Assert.True(actual.IsFailure);
         Assert.Equal(expected, actual);
     }
+    
+    [Fact]
+    public void PreconditionMeets_Specification_When_ResultIsFailure_Returns_ResultIsFailure()
+    {
+        var specification = new StringMustNotBeNullOrWhiteSpaceSpecification();
+        var error = Error.Failure("MyCode", "Some description");
+        var expected = Result<string?, Option<Error>>.Failure(error);
+        
+        var actual = Result<string?, Error>.Failure(error).Meets(specification);
+        
+        Assert.True(actual.IsFailure);
+        Assert.Equal(expected, actual);
+    }
 }
