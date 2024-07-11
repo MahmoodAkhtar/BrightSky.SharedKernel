@@ -112,4 +112,41 @@ public class PreconditionTests
         
         Assert.Equal(expected, actual);
     }
+    
+    [Fact]
+    public void PreconditionRequires_Value_Meets_StringMustNotBeNullOrWhiteSpaceSpecification_ThenAssign_Value_AsExpected()
+    {
+        var specification = new StringMustNotBeNullOrWhiteSpaceSpecification();
+        string? expected = (string?)"some value";
+        
+        var actual = Precondition.Requires(expected).Meets(specification).ThenAssignOrThrow<string?, Exception>();
+        
+        Assert.Equal(expected, actual);
+    }
+    
+        
+    [Theory]
+    [InlineData((string?)null)]
+    [InlineData("")]
+    [InlineData(" ")]
+    public void PreconditionRequires_Value_DoesntMeet_StringMustNotBeNullOrWhiteSpaceSpecification_ThenThrows_Exception(string? value)
+    {
+        var specification = new StringMustNotBeNullOrWhiteSpaceSpecification();
+        var error = Error.Failure(
+            $"Precondition.{specification.GetType().Name}",
+            $"Specification {specification.GetType().Name} was not met");
+        var expected = $"{Error.GetNameFor(error.Type)} {error.Code} {error.Description}";
+        string? actual = default;
+        
+        try
+        {
+            actual = Precondition.Requires(value).Meets(specification).ThenAssignOrThrow<string?, Exception>();
+        }
+        catch (Exception e)
+        {
+            Assert.Equal(expected , e.Message);
+        }
+        
+        Assert.Equal(default, actual);
+    }
 }
