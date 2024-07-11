@@ -1,48 +1,32 @@
-﻿using System.Reflection.Metadata.Ecma335;
-
-namespace BrightSky.SharedKernel;
+﻿namespace BrightSky.SharedKernel;
 
 public static class Precondition
 {
     public static Result<TValue, Error> Requires<TValue>(TValue value) => Result<TValue, Error>.Success(value);
 
-    public static Result<TValue, Error> BeTrueFor<TValue>(this Result<TValue, Error> result, Func<TValue, bool> predicate)
-        => result.IsFailure ? result : predicate(result.Value) 
-            ? result 
-            : Result<TValue, Error>.Failure(Error.Failure(
-                "Precondition.BeTrueFor", 
-                "Func<TValue, bool> predicate was false"));
-
-    public static Result<TValue, Error> BeFalseFor<TValue>(this Result<TValue, Error> result, Func<TValue, bool> predicate)
-        => result.IsFailure ? result : !predicate(result.Value) 
-            ? result 
-            : Result<TValue, Error>.Failure(Error.Failure(
-                "Precondition.BeFalseFor", 
-                "Func<TValue, bool> predicate was true"));    
+    public static Result<TValue, Option<Error>> Meets
+        <TValue>(
+            this Result<TValue, Error> result,
+            Specification<TValue> specification)
+        => result.Match(
+            success => 
+                specification.IsSatisfiedBy(success) 
+                    ? success 
+                    : Result<TValue, Option<Error>>.Failure(Error.Failure(
+                        $"Precondition.{specification.GetType().Name}",
+                        $"Specification {specification.GetType().Name} was not met")),
+                failure => Option<Error>.Some(failure));
     
-    public static Option<Error> OrError<TValue>(this Result<TValue, Error> result)
-        => result.IsFailure ? Option<Error>.Some(result.Error) : Option<Error>.None;
-    
-    public static Option<Error> OrError<TValue>(this Result<TValue, Error> result, Error error)
-        => result.IsFailure ? Option<Error>.Some(error) : Option<Error>.None;
-}
-
-public static class Preconditions
-{
-    public static IEnumerable<Error> AddRange(params Option<Error>[] options)
-        => options?.Where(x => x.IsSome).Select(x => x.Value) ?? [];
-
-    private static Option<TException> ToOptionOfException<TException>(this IEnumerable<Error> errors) where TException : Exception
-    {
-        if (!errors.Any()) return Option<TException>.None;
-        var error = errors.First();
-        var ex = (TException)Activator.CreateInstance(typeof(TException), $"{Error.GetNameFor(error.Type)} {error.Code} {error.Description}")!;
-        return ex;
-    }
-    
-    public static void Throws<TException>(this IEnumerable<Error> errors) where TException : Exception
-    {
-        var option = errors.ToOptionOfException<TException>();
-        if (option.IsSome) throw option.Value;
-    }
+    public static TValue ThenAssignOrThrow<TValue, TException>(this Result<TValue, Option<Error>> result)
+        where TException : Exception
+        => result
+            .Match<TValue, Option<Error>, Result<TValue, Option<TException>>>(
+            success => success,
+            failure => failure
+                .Map(error => (TException)Activator.CreateInstance(typeof(TException),
+                    $"{Error.GetNameFor(error.Type)} {error.Code} {error.Description}")!)
+                .Tap(exception => throw exception))
+            .Match(
+            success => success,
+            failure => default!);
 }
