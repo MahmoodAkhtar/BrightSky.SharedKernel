@@ -64,4 +64,52 @@ public class PreconditionTests
         Assert.True(actual.IsFailure);
         Assert.Equal(expected, actual);
     }
+    
+    [Fact]
+    public void PreconditionThenAssignOrThrow_When_ResultIsFailure_Throw_Exception()
+    {
+        var error = Error.Failure("MyCode", "Some description");
+        var expected = $"{Error.GetNameFor(error.Type)} {error.Code} {error.Description}";
+        string? actual = default;
+        
+        try
+        {
+            actual = Result<string?, Option<Error>>.Failure(error).ThenAssignOrThrow<string?, Exception>();
+        }
+        catch (Exception e)
+        {
+            Assert.Equal(expected , e.Message); 
+        }
+        
+        Assert.Equal(default, actual);
+    }
+        
+    [Fact]
+    public void PreconditionThenAssignOrThrow_When_ResultIsFailure_Throw_ArgumentException()
+    {
+        var error = Error.Failure("MyCode", "Some description");
+        var expected = $"{Error.GetNameFor(error.Type)} {error.Code} {error.Description}";
+        string? actual = default;
+        
+        try
+        {
+            actual = Result<string?, Option<Error>>.Failure(error).ThenAssignOrThrow<string?, ArgumentException>();
+        }
+        catch (ArgumentException e)
+        {
+            Assert.Equal(expected , e.Message); 
+        }
+        
+        Assert.Equal(default, actual);
+    }
+    
+    [Fact]
+    public void PreconditionThenAssignOrThrow_When_ResultIsSuccess_Return_EqualsExpected()
+    {
+        string? expected = "some value";
+        
+        var actual = Result<string?, Option<Error>>.Success(expected).ThenAssignOrThrow<string?, Exception>();
+        
+        Assert.Equal(expected, actual);
+    }
 }
