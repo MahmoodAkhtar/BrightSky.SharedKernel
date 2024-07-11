@@ -2,6 +2,11 @@
 
 public class OptionExtensionsTests
 {
+    private class MyMockObject
+    {
+        public int MyIntProperty { get; set; }
+    }
+    
     [Fact]
     public void 
     When_OptionIsSome_And_Map_ThenAssert_IsSome_EqualsTrue_And_Value_EqualsExpected()
@@ -28,6 +33,35 @@ public class OptionExtensionsTests
         Assert.True(actual.IsNone);
         Assert.Throws<NullReferenceException>(() => actual.Value);
     }
+    
+    [Fact]
+    public void 
+    When_OptionIsSome_And_Tap_ThenAssert_IsSome_EqualsTrue_And_Value_EqualsExpected()
+    {
+        var expected = 1;
+        var stateObject = new MyMockObject();
+        var option = Option<int>.Some(expected);
+
+        var actual = option.Tap(value => { stateObject.MyIntProperty = value; });
+
+        Assert.True(actual.IsSome);
+        Assert.Equal(expected, actual.Value);
+        Assert.Equal(expected, stateObject.MyIntProperty);
+    }
+    
+    [Fact]
+    public void 
+    When_OptionIsNone_And_Tap_ThenAssert_IsNone_EqualsTrue__And_Value_ThrowsNullReferenceException()
+    {
+        var mockObject = new MyMockObject();
+        var option = Option<int>.None;
+
+        var actual = option.Tap(value => { mockObject.MyIntProperty = value; });
+
+        Assert.True(actual.IsNone);
+        Assert.Equal(Option<int>.None, actual);
+        Assert.Equal(default(int), mockObject.MyIntProperty);
+    }    
     
     [Fact]
     public void 

@@ -35,6 +35,15 @@ public static class OptionExtensions
             Func<TValue, Option<TResult>> bind)
         => option.IsSome ? bind(option.Value) : Option<TResult>.None;
 
+    public static Option<TValue> Tap
+        <TValue>(
+            this Option<TValue> option,
+            Action<TValue> action)
+    {
+        if (option.IsSome) action(option.Value);
+        return option;
+    }
+    
     public static TValue Reduce
         <TValue>(
             this Option<TValue> option, TValue @default)
