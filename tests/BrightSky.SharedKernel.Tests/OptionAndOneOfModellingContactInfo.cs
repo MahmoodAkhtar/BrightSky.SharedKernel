@@ -1,15 +1,109 @@
-﻿namespace BrightSky.SharedKernel.Tests;
+﻿using System.Linq.Expressions;
+using System.Text.RegularExpressions;
+
+namespace BrightSky.SharedKernel.Tests;
 
 public class OptionAndOneOfModellingContactInfo
 {
-    public record String50(string Value);
-    public record Fullname(String50 Firstname, String50 Lastname);
-    
-    public record EmailAddress(string Email);
+    public record String50
+    {
+        private static readonly Specification<string?> String50Spec = new String50Specification();
+        
+        private readonly string _value;
 
-    public record OutwardCode(string code);
-    public record InwardCode(string code);
-    public record UkPostCode(OutwardCode outward, InwardCode inward);
+        private String50(string value) =>
+            _value = Precondition.Requires(value).Meets(String50Spec!).ThenAssignOrThrow<string, ArgumentException>();
+
+        public static String50 Create(string value) => new(value);
+
+        public static implicit operator string(String50 value) => value._value;
+        public static explicit operator String50(string value) => Create(value);
+
+        private class String50Specification : Specification<string?>
+        {
+            public override Expression<Func<string?, bool>> ToExpression()
+                => s => !string.IsNullOrWhiteSpace(s) && s.Length >= 1 && s.Length <= 50;
+        }
+    }
+
+    public record Fullname
+    {
+        private static readonly Specification<String50> NotNullSpec = new NotNullSpecification();
+
+        public String50 Firstname { get; init; }
+        public String50 Lastname { get; init; }
+        
+        private Fullname(String50 firstname, String50 lastname)
+        {
+            Firstname = Precondition.Requires(firstname).Meets(NotNullSpec)
+                .ThenAssignOrThrow<String50, ArgumentNullException>();
+            
+            Lastname = Precondition.Requires(lastname).Meets(NotNullSpec)
+                .ThenAssignOrThrow<String50, ArgumentNullException>();
+        }
+
+        public static Fullname Create(String50 firstname, String50 lastname) => new(firstname, lastname);
+        
+        public static implicit operator string(Fullname value) => $"{value.Firstname} {value.Lastname}";
+        
+        private class NotNullSpecification : Specification<String50>
+        {
+            public override Expression<Func<String50, bool>> ToExpression()
+                => s50 => s50 != null;
+        }
+    }
+
+    public record EmailAddress
+    {
+        private static readonly Specification<string?> EmailAddressSpec = new EmailAddressSpecification();
+        
+        private readonly string _value;
+
+        private EmailAddress(string value) =>
+            _value = Precondition.Requires(value).Meets(EmailAddressSpec!).ThenAssignOrThrow<string, ArgumentException>();
+
+        public static EmailAddress Create(string value) => new(value);
+
+        public static implicit operator string(EmailAddress value) => value._value;
+        public static explicit operator EmailAddress(string value) => Create(value);
+
+        private class EmailAddressSpecification : Specification<string?>
+        {
+            public override Expression<Func<string?, bool>> ToExpression()
+                => s => Predicate(s);
+
+            private static bool Predicate(string? value)
+            {
+                if (string.IsNullOrWhiteSpace(value) && value!.Length <= 255) return false;
+                var index = value.IndexOf('@');
+                return index > 0 && index != value.Length - 1 && index == value.LastIndexOf('@');
+            }
+        }
+    }
+
+    public record UkPostCode
+    {
+        private static readonly Specification<string?> UkPostCodeSpec = new UkPostCodeSpecification();
+        
+        private readonly string _value;
+
+        private UkPostCode(string value) =>
+            _value = Precondition.Requires(value).Meets(UkPostCodeSpec!).ThenAssignOrThrow<string, ArgumentException>();
+
+        public static UkPostCode Create(string value) => new(value);
+
+        public static implicit operator string(UkPostCode value) => value._value;
+        public static explicit operator UkPostCode(string value) => Create(value);
+
+        private class UkPostCodeSpecification : Specification<string?>
+        {
+            private const string Pattern = "^(([A-Z]{1,2}[0-9][A-Z0-9]?|ASCN|STHL|TDCU|BBND|[BFS]IQQ|PCRN|TKCA) ?[0-9][A-Z]{2}|BFPO ?[0-9]{1,4}|(KY[0-9]|MSR|VG|AI)[ -]?[0-9]{4}|[A-Z]{2} ?[0-9]{2}|GE ?CX|GIR ?0A{2}|SAN ?TA1)$";
+
+            public override Expression<Func<string?, bool>> ToExpression()
+                => s => !string.IsNullOrWhiteSpace(s) && Regex.IsMatch(s, Pattern);
+        }
+    }
+    
     public record UkPostalAddress(
         string HouseNumberAndStreet, 
         Option<string> Locality,            // Locality is optional 
