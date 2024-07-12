@@ -4,7 +4,7 @@ namespace BrightSky.SharedKernel.Tests;
 
 public class SpecificationTests
 {
-    public static class TestData
+    private static class TestData
     {
         public static IEnumerable<object[]> ForString50()
         {

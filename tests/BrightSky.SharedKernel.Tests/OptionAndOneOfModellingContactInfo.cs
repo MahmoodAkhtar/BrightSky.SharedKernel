@@ -146,31 +146,83 @@ public class OptionAndOneOfModellingContactInfo
         Option<ContactInfo> SecondaryContact);  // This is the secondary contact info and is optional
 
 
-    [Fact]
-    public void Test()
+    private static class TestData
     {
-        var expected = "some value";
+        public static IEnumerable<object[]> ForString50AsExpected()
+        {
+            const string stringOf50Chars = "7taEVfUx46Xrnn8UN4AE0p3mSXo9ZqLDznrDLuB0HWmcGrxkXB";
+            for (var i = 1; i <= 50; i++)
+                yield return new object[] { stringOf50Chars[..i] };
+        }
+        
+        public static IEnumerable<object[]> ForString50IsntAsExpected()
+        {
+            var objects = new object[] { (string?)null, "", " ", "7taEVfUx46Xrnn8UN4AE0p3mSXo9ZqLDznrDLuB0HWmcGrxkXBX" };   
+            foreach(var obj in objects)
+                yield return new object[] { obj };
+        }
+
+        public static IEnumerable<object[]> ForFullnameAsExpected()
+        {
+            var firstnames = ForString50AsExpected().SelectMany(x => x).OrderBy(x=> Random.Shared.Next()).ToList();
+            var lastnames = ForString50AsExpected().SelectMany(x => x).OrderBy(x=> Random.Shared.Next()).ToList();
+
+            for (var i = 0; i < 50; i++)
+                yield return new object[] { firstnames[i], lastnames[i] };
+        }
+    }
+    
+    [Theory]
+    [MemberData(nameof(TestData.ForString50AsExpected), MemberType = typeof(TestData))]
+    public void String50Create_When_Value_AsExpected(string expected)
+    {
         var actual = String50.Create(expected);
         
         Assert.Equal(expected, actual);
     }
     
-    [Fact]
-    public void Test2()
+    [Theory]
+    [MemberData(nameof(TestData.ForString50AsExpected), MemberType = typeof(TestData))]
+    public void String50_ExplicitOperator_When_Value_AsExpected(string expected)
     {
-        var expected = "some value";
         var actual = (String50)expected;
         
         Assert.Equal(expected, actual);
     }
-    
         
-    [Fact]
-    public void Test3()
+    [Theory]
+    [MemberData(nameof(TestData.ForString50AsExpected), MemberType = typeof(TestData))]
+    public void String50_ImplicitOperator_When_Value_AsExpected(string expected)
     {
-        var value = "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijX";
+        string actual = String50.Create(expected);
         
-        Assert.Equal(51, value.Length);
+        Assert.Equal(expected, actual);
+    }
+        
+    [Theory]
+    [MemberData(nameof(TestData.ForString50IsntAsExpected), MemberType = typeof(TestData))]
+    public void String50Create_When_Value_IsntAsExpected(string? value)
+    {
         Assert.Throws<ArgumentException>(() => String50.Create(value));
+    }
+    
+    [Theory]
+    [MemberData(nameof(TestData.ForFullnameAsExpected), MemberType = typeof(TestData))]
+    public void FullnameCreate_When_Firstname_And_Lastname_AsExpected(String50 firstname, String50 lastname)
+    {
+        var actual = Fullname.Create(firstname, lastname);
+        
+        Assert.IsType<Fullname>(actual);
+        Assert.Equal(firstname, actual.Firstname);
+        Assert.Equal(lastname, actual.Lastname);
+    }
+    
+    [Theory]
+    [MemberData(nameof(TestData.ForFullnameAsExpected), MemberType = typeof(TestData))]
+    public void FullnameCreate_ImplicitOperator_AsExpected(String50 firstname, String50 lastname)
+    {
+        var actual = Fullname.Create(firstname, lastname);
+        
+        Assert.Equal($"{firstname} {lastname}", actual);
     }
 }
