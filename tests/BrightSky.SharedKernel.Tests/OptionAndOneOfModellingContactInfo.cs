@@ -144,5 +144,33 @@ public class OptionAndOneOfModellingContactInfo
         Fullname Name, 
         ContactInfo PrimaryContact,             // This is the primary contact info and is required
         Option<ContactInfo> SecondaryContact);  // This is the secondary contact info and is optional
+
+
+    [Fact]
+    public void Test()
+    {
+        var expected = "some value";
+        var actual = String50.Create(expected);
+        
+        Assert.Equal(expected, actual);
+    }
     
+    [Fact]
+    public void Test2()
+    {
+        var expected = "some value";
+        var actual = (String50)expected;
+        
+        Assert.Equal(expected, actual);
+    }
+    
+        
+    [Fact]
+    public void Test3()
+    {
+        var value = "abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijX";
+        
+        Assert.Equal(51, value.Length);
+        Assert.Throws<ArgumentException>(() => String50.Create(value));
+    }
 }
