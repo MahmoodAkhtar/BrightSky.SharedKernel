@@ -106,30 +106,105 @@ public class OptionAndOneOfModellingContactInfo
     
     public record UkPostalAddress(
         string HouseNumberAndStreet, 
-        Option<string> Locality,            // Locality is optional 
+        Option<string> Locality,
         string TownOrCity, 
         UkPostCode PostCode);
-    
-    public record LandlineNumber(string Number);
-    public record MobileNumber(string Number);
-    
-    // PhoneNumber can be a mobile or a landline number
-    public record PhoneNumber : OneOf<MobileNumber, LandlineNumber>
+
+    public record UkLandlineNumber
     {
-        public new static PhoneNumber Case(MobileNumber value) => new(value);
-        public new static PhoneNumber Case(LandlineNumber value) => new(value);
+        private static readonly Specification<string?> UkLandlineNumberSpec = new UkLandlineNumberSpecification();
         
-        public static implicit operator PhoneNumber(MobileNumber value) => new(value);
-        public static implicit operator PhoneNumber(LandlineNumber value) => new(value);
+        private readonly string _value;
+
+        private UkLandlineNumber(string value) =>
+            _value = Precondition.Requires(value).Meets(UkLandlineNumberSpec!).ThenAssignOrThrow<string, ArgumentException>();
+
+        public static UkLandlineNumber Create(string value) => new(value);
+
+        public static implicit operator string(UkLandlineNumber value) => value._value;
+        public static explicit operator UkLandlineNumber(string value) => Create(value);
         
-        public static implicit operator MobileNumber(PhoneNumber value) => value.Get<MobileNumber>();
-        public static implicit operator LandlineNumber(PhoneNumber value) => value.Get<LandlineNumber>();
+        private class UkLandlineNumberSpecification : Specification<string?>
+        {
+            // See: https://en.wikipedia.org/wiki/Telephone_numbers_in_the_United_Kingdom#Mobile_telephones
+            private const string Pattern = @"^[0]\d{9,10}$";
+
+            public override Expression<Func<string?, bool>> ToExpression()
+                => s => !string.IsNullOrWhiteSpace(s) && Regex.IsMatch(s, Pattern);
+        }
+    }
+
+    public record UkMobileNumber
+    {
+        private static readonly Specification<string?> UkMobileNumberSpec = new UkMobileNumberSpecification();
         
-        protected PhoneNumber(MobileNumber value) : base(value)
+        private readonly string _value;
+
+        private UkMobileNumber(string value) =>
+            _value = Precondition.Requires(value).Meets(UkMobileNumberSpec!).ThenAssignOrThrow<string, ArgumentException>();
+
+        public static UkMobileNumber Create(string value) => new(value);
+
+        public static implicit operator string(UkMobileNumber value) => value._value;
+        public static explicit operator UkMobileNumber(string value) => Create(value);
+        
+        private class UkMobileNumberSpecification : Specification<string?>
+        {
+            // See: https://en.wikipedia.org/wiki/Telephone_numbers_in_the_United_Kingdom#Mobile_telephones
+            private const string Pattern = @"^[07]\d{9}$";
+
+            public override Expression<Func<string?, bool>> ToExpression()
+                => s => !string.IsNullOrWhiteSpace(s) && Regex.IsMatch(s, Pattern);
+        }
+    }
+
+    public record InternationalNumber
+    {
+        private static readonly Specification<string?> InternationalNumberSpec = new InternationalNumberSpecification();
+        
+        private readonly string _value;
+
+        private InternationalNumber(string value) =>
+            _value = Precondition.Requires(value).Meets(InternationalNumberSpec!).ThenAssignOrThrow<string, ArgumentException>();
+
+        public static InternationalNumber Create(string value) => new(value);
+
+        public static implicit operator string(InternationalNumber value) => value._value;
+        public static explicit operator InternationalNumber(string value) => Create(value);
+        
+        private class InternationalNumberSpecification : Specification<string?>
+        {
+            // See: https://en.wikipedia.org/wiki/E.164
+            private const string Pattern = @"^\d{11,15}$";
+
+            public override Expression<Func<string?, bool>> ToExpression()
+                => s => !string.IsNullOrWhiteSpace(s) && Regex.IsMatch(s, Pattern);
+        }        
+    }
+    
+    public record PhoneNumber : OneOf<UkMobileNumber, UkLandlineNumber, InternationalNumber>
+    {
+        public new static PhoneNumber Case(UkMobileNumber value) => new(value);
+        public new static PhoneNumber Case(UkLandlineNumber value) => new(value);
+        public new static PhoneNumber Case(InternationalNumber value) => new(value);
+        
+        public static implicit operator PhoneNumber(UkMobileNumber value) => new(value);
+        public static implicit operator PhoneNumber(UkLandlineNumber value) => new(value);
+        public static implicit operator PhoneNumber(InternationalNumber value) => new(value);
+        
+        public static implicit operator UkMobileNumber(PhoneNumber value) => value.Get<UkMobileNumber>();
+        public static implicit operator UkLandlineNumber(PhoneNumber value) => value.Get<UkLandlineNumber>();
+        public static implicit operator InternationalNumber(PhoneNumber value) => value.Get<InternationalNumber>();
+        
+        protected PhoneNumber(UkMobileNumber value) : base(value)
         {
         }
 
-        protected PhoneNumber(LandlineNumber value) : base(value)
+        protected PhoneNumber(UkLandlineNumber value) : base(value)
+        {
+        }
+        
+        protected PhoneNumber(InternationalNumber value) : base(value)
         {
         }
     }
@@ -139,11 +214,10 @@ public class OptionAndOneOfModellingContactInfo
         UkPostalAddress Address, 
         PhoneNumber PhoneNumber);
     
-    // Requirement: A contact must have at least one way of being contacted
     public record Contact(
         Fullname Name, 
-        ContactInfo PrimaryContact,             // This is the primary contact info and is required
-        Option<ContactInfo> SecondaryContact);  // This is the secondary contact info and is optional
+        ContactInfo PrimaryContact,
+        Option<ContactInfo> SecondaryContact);
 
 
     private static class TestData
