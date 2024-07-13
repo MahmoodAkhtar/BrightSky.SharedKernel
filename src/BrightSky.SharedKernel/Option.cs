@@ -23,6 +23,13 @@ public readonly record struct Option<TValue>
 
 public static class OptionExtensions
 {
+    public static TResult Match
+        <TValue, TResult>(
+            this Option<TValue> option,
+            Func<TValue, TResult> some,
+            Func<TResult> none)
+        => option.IsSome ? some(option.Value) : none();
+    
     public static Option<TResult> Map
         <TValue, TResult>(
             this Option<TValue> option,
