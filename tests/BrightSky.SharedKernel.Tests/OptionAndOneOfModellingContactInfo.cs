@@ -166,7 +166,7 @@ public class OptionAndOneOfModellingContactInfo
 
     public readonly record struct  UkMobileNumber
     {
-        private static readonly Specification<string?> UkMobileNumberSpec = new UkMobileNumberSpecification();
+        private static readonly UkMobileNumberSpecification UkMobileNumberSpec = new();
         
         private readonly string _value;
 
@@ -181,7 +181,7 @@ public class OptionAndOneOfModellingContactInfo
         private class UkMobileNumberSpecification : Specification<string?>
         {
             // See: https://en.wikipedia.org/wiki/Telephone_numbers_in_the_United_Kingdom#Mobile_telephones
-            private const string Pattern = @"^[07]\d{9}$";
+            private const string Pattern = @"^07\d{9}$";
 
             public override Expression<Func<string?, bool>> ToExpression()
                 => s => !string.IsNullOrWhiteSpace(s) && Regex.IsMatch(s, Pattern);
@@ -190,7 +190,7 @@ public class OptionAndOneOfModellingContactInfo
 
     public readonly record struct  InternationalNumber
     {
-        private static readonly Specification<string?> InternationalNumberSpec = new InternationalNumberSpecification();
+        private static readonly InternationalNumberSpecification InternationalNumberSpec = new();
         
         private readonly string _value;
 
@@ -241,11 +241,8 @@ public class OptionAndOneOfModellingContactInfo
 
     public record ContactInfo
     {
-        private static readonly UkPostalAddressNotNullSpecification UkPostalAddressNotNullSpec =
-            new UkPostalAddressNotNullSpecification();
-        
-        private static readonly PhoneNumberNotNullSpecification PhoneNumberNotNullSpec =
-            new PhoneNumberNotNullSpecification();
+        private static readonly UkPostalAddressNotNullSpecification UkPostalAddressNotNullSpec = new();
+        private static readonly PhoneNumberNotNullSpecification PhoneNumberNotNullSpec = new();
         
         public EmailAddress Email { get; init; }
         public UkPostalAddress Address { get; init; }
@@ -276,8 +273,7 @@ public class OptionAndOneOfModellingContactInfo
 
     public record Contact
     {
-        private static readonly ContactInfoNotNullSpecification ContactInfoNotNullSpec =
-            new ContactInfoNotNullSpecification();
+        private static readonly ContactInfoNotNullSpecification ContactInfoNotNullSpec = new();
         
         public Fullname Name { get; init; }
         public ContactInfo PrimaryContact { get; init; }
@@ -303,6 +299,65 @@ public class OptionAndOneOfModellingContactInfo
         }
     }
 
+    [Fact]
+    public void ContactCreate_Without_SecondaryContact()
+    {
+        var contact =
+            Contact.Create(
+                Fullname.Create(
+                    String50.Create("Firstname"), 
+                    String50.Create("Lastname")
+                ),
+                ContactInfo.Create(
+                    EmailAddress.Create("someone@example.com"),
+                    UkPostalAddress.Create(
+                        String100.Create("123 Play Street"), 
+                        String100.Create("Fun Area"), 
+                        String100.Create("Toy Town"), 
+                        UkPostCode.Create("TT1 2AB")
+                    ),
+                    PhoneNumber.Case(UkMobileNumber.Create("07890123456"))
+                )
+            );
+
+        Assert.IsType<Contact>(contact);
+        Assert.Equal(Option<ContactInfo>.None, contact.SecondaryContact);
+    }
+    
+    [Fact]
+    public void ContactCreate_With_SecondaryContact()
+    {
+        var contact =
+            Contact.Create(
+                Fullname.Create(
+                    String50.Create("Firstname"), 
+                    String50.Create("Lastname")
+                ),
+                ContactInfo.Create(
+                    EmailAddress.Create("someone@example.com"),
+                    UkPostalAddress.Create(
+                        String100.Create("123 Play Street"), 
+                        String100.Create("Fun Area"), 
+                        String100.Create("Toy Town"), 
+                        UkPostCode.Create("TT1 2AB")
+                    ),
+                    PhoneNumber.Case(UkMobileNumber.Create("07890123456"))
+                ),
+                ContactInfo.Create(
+                    EmailAddress.Create("someoneelse@example.com"),
+                    UkPostalAddress.Create(
+                        String100.Create("456 Play Street"), 
+                        String100.Create("Fun Area"), 
+                        String100.Create("Toy Town"), 
+                        UkPostCode.Create("TT2 3CD")
+                    ),
+                    PhoneNumber.Case(UkMobileNumber.Create("07896543210"))
+                )
+            );
+
+        Assert.IsType<Contact>(contact);
+    }
+    
     private static class TestData
     {
         public static IEnumerable<object[]> ForString50AsExpected()
