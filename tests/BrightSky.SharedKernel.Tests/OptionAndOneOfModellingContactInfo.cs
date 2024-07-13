@@ -72,7 +72,7 @@ public class OptionAndOneOfModellingContactInfo
         private EmailAddress(string value) =>
             _value = Precondition.Requires(value).Meets(EmailAddressSpec!).ThenAssignOrThrow<string, ArgumentException>();
 
-        public static EmailAddress Create(string value) => new(value);
+        public static EmailAddress Create(string value) => new(value.ToLower());
 
         public static implicit operator string(EmailAddress value) => value._value;
         public static explicit operator EmailAddress(string value) => Create(value);
@@ -138,6 +138,19 @@ public class OptionAndOneOfModellingContactInfo
 
         public static UkPostalAddress Create(String100 houseNumberAndStreet, String100 locality, String100 townOrCity, UkPostCode postCode)
             => new(houseNumberAndStreet, locality, townOrCity, postCode);
+
+        public static string FormattedAsString(UkPostalAddress address)
+        {
+            // See: https://www.postoffice.co.uk/mail/how-to-address-mail
+            var locality = address.Locality.Match(some => some+"\n", () => string.Empty);
+            var formatted = 
+                $"{address.HouseNumberAndStreet}\n" +
+                $"{locality}" +
+                $"{((string)address.TownOrCity).ToUpper()}\n" +
+                $"{((string)address.PostCode).ToUpper()}";
+
+            return formatted;
+        }
     }
 
     public readonly record struct UkLandlineNumber
