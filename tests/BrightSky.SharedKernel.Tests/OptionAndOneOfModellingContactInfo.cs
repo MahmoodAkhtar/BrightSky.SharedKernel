@@ -5,7 +5,7 @@ namespace BrightSky.SharedKernel.Tests;
 
 public class OptionAndOneOfModellingContactInfo
 {
-    public record String50
+    public readonly record struct String50
     {
         private static readonly Specification<string?> String50Spec = new String50Specification();
         
@@ -26,34 +26,44 @@ public class OptionAndOneOfModellingContactInfo
         }
     }
 
-    public record Fullname
+    public readonly record struct String100
     {
-        private static readonly Specification<String50> NotNullSpec = new NotNullSpecification();
+        private static readonly Specification<string?> String100Spec = new String100Specification();
+        
+        private readonly string _value;
 
+        private String100(string value) =>
+            _value = Precondition.Requires(value).Meets(String100Spec!).ThenAssignOrThrow<string, ArgumentException>();
+
+        public static String100 Create(string value) => new(value);
+
+        public static implicit operator string(String100 value) => value._value;
+        public static explicit operator String100(string value) => Create(value);
+
+        private class String100Specification : Specification<string?>
+        {
+            public override Expression<Func<string?, bool>> ToExpression()
+                => s => !string.IsNullOrWhiteSpace(s) && s.Length >= 1 && s.Length <= 100;
+        }
+    }    
+    
+    public readonly record struct Fullname
+    {
         public String50 Firstname { get; init; }
         public String50 Lastname { get; init; }
         
         private Fullname(String50 firstname, String50 lastname)
         {
-            Firstname = Precondition.Requires(firstname).Meets(NotNullSpec)
-                .ThenAssignOrThrow<String50, ArgumentNullException>();
-            
-            Lastname = Precondition.Requires(lastname).Meets(NotNullSpec)
-                .ThenAssignOrThrow<String50, ArgumentNullException>();
+            Firstname = firstname;
+            Lastname = lastname;
         }
 
         public static Fullname Create(String50 firstname, String50 lastname) => new(firstname, lastname);
         
         public static implicit operator string(Fullname value) => $"{value.Firstname} {value.Lastname}";
-        
-        private class NotNullSpecification : Specification<String50>
-        {
-            public override Expression<Func<String50, bool>> ToExpression()
-                => s50 => s50 != null;
-        }
     }
 
-    public record EmailAddress
+    public readonly record struct EmailAddress
     {
         private static readonly Specification<string?> EmailAddressSpec = new EmailAddressSpecification();
         
@@ -81,7 +91,7 @@ public class OptionAndOneOfModellingContactInfo
         }
     }
 
-    public record UkPostCode
+    public readonly record struct UkPostCode
     {
         private static readonly Specification<string?> UkPostCodeSpec = new UkPostCodeSpecification();
         
@@ -103,14 +113,34 @@ public class OptionAndOneOfModellingContactInfo
                 => s => !string.IsNullOrWhiteSpace(s) && Regex.IsMatch(s, Pattern);
         }
     }
-    
-    public record UkPostalAddress(
-        string HouseNumberAndStreet, 
-        Option<string> Locality,
-        string TownOrCity, 
-        UkPostCode PostCode);
 
-    public record UkLandlineNumber
+    public record UkPostalAddress
+    {
+        public String100 HouseNumberAndStreet { get; init; }
+        public Option<String100> Locality { get; init; }
+        public String100 TownOrCity { get; init; }
+        public UkPostCode PostCode { get; init; }
+
+        private UkPostalAddress(
+            String100 houseNumberAndStreet, 
+            Option<String100> locality, 
+            String100 townOrCity, 
+            UkPostCode postCode)
+        {
+            HouseNumberAndStreet = houseNumberAndStreet;
+            Locality = locality;
+            TownOrCity = townOrCity;
+            PostCode = postCode;
+        }
+
+        public static UkPostalAddress Create(String100 houseNumberAndStreet, String100 townOrCity, UkPostCode postCode)
+            => new(houseNumberAndStreet, Option<String100>.None, townOrCity, postCode);
+
+        public static UkPostalAddress Create(String100 houseNumberAndStreet, String100 locality, String100 townOrCity, UkPostCode postCode)
+            => new(houseNumberAndStreet, locality, townOrCity, postCode);
+    }
+
+    public readonly record struct UkLandlineNumber
     {
         private static readonly Specification<string?> UkLandlineNumberSpec = new UkLandlineNumberSpecification();
         
@@ -134,7 +164,7 @@ public class OptionAndOneOfModellingContactInfo
         }
     }
 
-    public record UkMobileNumber
+    public readonly record struct  UkMobileNumber
     {
         private static readonly Specification<string?> UkMobileNumberSpec = new UkMobileNumberSpecification();
         
@@ -158,7 +188,7 @@ public class OptionAndOneOfModellingContactInfo
         }
     }
 
-    public record InternationalNumber
+    public readonly record struct  InternationalNumber
     {
         private static readonly Specification<string?> InternationalNumberSpec = new InternationalNumberSpecification();
         
@@ -208,17 +238,70 @@ public class OptionAndOneOfModellingContactInfo
         {
         }
     }
-    
-    public record ContactInfo(
-        EmailAddress Email, 
-        UkPostalAddress Address, 
-        PhoneNumber PhoneNumber);
-    
-    public record Contact(
-        Fullname Name, 
-        ContactInfo PrimaryContact,
-        Option<ContactInfo> SecondaryContact);
 
+    public record ContactInfo
+    {
+        private static readonly UkPostalAddressNotNullSpecification UkPostalAddressNotNullSpec =
+            new UkPostalAddressNotNullSpecification();
+        
+        private static readonly PhoneNumberNotNullSpecification PhoneNumberNotNullSpec =
+            new PhoneNumberNotNullSpecification();
+        
+        public EmailAddress Email { get; init; }
+        public UkPostalAddress Address { get; init; }
+        public PhoneNumber PhoneNumber { get; init; }
+
+        private ContactInfo(EmailAddress email, UkPostalAddress address, PhoneNumber phoneNumber)
+        {
+            Email = email;
+            Address = Precondition.Requires(address).Meets(UkPostalAddressNotNullSpec).ThenAssignOrThrow<UkPostalAddress, ArgumentNullException>();
+            PhoneNumber = Precondition.Requires(phoneNumber).Meets(PhoneNumberNotNullSpec).ThenAssignOrThrow<PhoneNumber, ArgumentNullException>();
+        }
+
+        public static ContactInfo Create(EmailAddress email, UkPostalAddress address, PhoneNumber phoneNumber)
+            => new(email, address, phoneNumber);
+
+        private class UkPostalAddressNotNullSpecification : Specification<UkPostalAddress>
+        {
+            public override Expression<Func<UkPostalAddress, bool>> ToExpression()
+                => x => x != null;
+        }
+
+        private class PhoneNumberNotNullSpecification : Specification<PhoneNumber>
+        {
+            public override Expression<Func<PhoneNumber, bool>> ToExpression()
+                => x => x != null;
+        }
+    }
+
+    public record Contact
+    {
+        private static readonly ContactInfoNotNullSpecification ContactInfoNotNullSpec =
+            new ContactInfoNotNullSpecification();
+        
+        public Fullname Name { get; init; }
+        public ContactInfo PrimaryContact { get; init; }
+        public Option<ContactInfo> SecondaryContact { get; init; }
+
+        private Contact(Fullname name, ContactInfo primaryContact, Option<ContactInfo> secondaryContact)
+        {
+            Name = name;
+            PrimaryContact = Precondition.Requires(primaryContact).Meets(ContactInfoNotNullSpec).ThenAssignOrThrow<ContactInfo, ArgumentNullException>();
+            SecondaryContact = secondaryContact;
+        }
+
+        public static Contact Create(Fullname name, ContactInfo primaryContact)
+            => new(name, primaryContact, Option<ContactInfo>.None);
+        
+        public static Contact Create(Fullname name, ContactInfo primaryContact, ContactInfo secondaryContact)
+            => new(name, primaryContact, secondaryContact);
+
+        private class ContactInfoNotNullSpecification : Specification<ContactInfo>
+        {
+            public override Expression<Func<ContactInfo, bool>> ToExpression()
+                => x => x != null;
+        }
+    }
 
     private static class TestData
     {
