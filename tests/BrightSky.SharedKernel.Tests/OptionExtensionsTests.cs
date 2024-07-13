@@ -6,6 +6,34 @@ public class OptionExtensionsTests
     {
         public int MyIntProperty { get; set; }
     }
+
+    [Fact]
+    public void
+    When_OptionIsSome_And_Match_ThenAssert_ActualReturn_EqualsExpected()
+    {
+        var expected = "2";
+        var option = Option<int>.Some(1);
+
+        var actual = option.Match(
+            some => (some + 1).ToString(),
+            () => string.Empty);
+
+        Assert.Equal(expected, actual);
+    }
+    
+    [Fact]
+    public void
+    When_OptionIsNone_And_Match_ThenAssert_ActualReturn_EqualsExpected()
+    {
+        var expected = string.Empty;
+        var option = Option<int>.None;
+
+        var actual = option.Match(
+            some => (some + 1).ToString(),
+            () => string.Empty);
+
+        Assert.Equal(expected, actual);
+    }
     
     [Fact]
     public void 
