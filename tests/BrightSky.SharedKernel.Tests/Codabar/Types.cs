@@ -112,6 +112,12 @@ public interface ICodabarChar
     Pattern Pattern { get; }
 }
 
+public static class ICodabarCharExtensions
+{
+    public static string Print(this ICodabarChar @char, PrintOptions options)
+        => @char.Pattern.Print(options);
+}
+
 public readonly record struct BarPrintOptions
 {
     public string Narrow { get; init; }
@@ -155,15 +161,9 @@ public readonly record struct PrintOptions
         => new(barPrintOptions, spacePrintOptions);
 }
 
-public static class ICodabarCharExtensions
-{
-    public static string Print(this ICodabarChar @char, PrintOptions options)
-        => @char.Pattern.Print(options);
-}
-
 public readonly record struct Char0 : ICodabarChar
 {
-    public char Char { get; init; }
+    public char Char { get; }
     public Pattern Pattern { get; init; }
 
     private Char0(char @char, Pattern pattern)
@@ -177,7 +177,7 @@ public readonly record struct Char0 : ICodabarChar
 
 public readonly record struct Char1 : ICodabarChar
 {
-    public char Char { get; init; }
+    public char Char { get; }
     public Pattern Pattern { get; init; }
 
     private Char1(char @char, Pattern pattern)
@@ -191,7 +191,7 @@ public readonly record struct Char1 : ICodabarChar
 
 public readonly record struct Char2 : ICodabarChar
 {
-    public char Char { get; init; }
+    public char Char { get; }
     public Pattern Pattern { get; init; }
 
     private Char2(char @char, Pattern pattern)
@@ -205,7 +205,7 @@ public readonly record struct Char2 : ICodabarChar
 
 public readonly record struct Char3 : ICodabarChar
 {
-    public char Char { get; init; }
+    public char Char { get; }
     public Pattern Pattern { get; init; }
 
     private Char3(char @char, Pattern pattern)
@@ -219,7 +219,7 @@ public readonly record struct Char3 : ICodabarChar
 
 public readonly record struct Char4 : ICodabarChar
 {
-    public char Char { get; init; }
+    public char Char { get; }
     public Pattern Pattern { get; init; }
 
     private Char4(char @char, Pattern pattern)
@@ -233,7 +233,7 @@ public readonly record struct Char4 : ICodabarChar
 
 public readonly record struct Char5 : ICodabarChar
 {
-    public char Char { get; init; }
+    public char Char { get; }
     public Pattern Pattern { get; init; }
 
     private Char5(char @char, Pattern pattern)
@@ -247,7 +247,7 @@ public readonly record struct Char5 : ICodabarChar
 
 public readonly record struct Char6 : ICodabarChar
 {
-    public char Char { get; init; }
+    public char Char { get; }
     public Pattern Pattern { get; init; }
 
     private Char6(char @char, Pattern pattern)
@@ -261,7 +261,7 @@ public readonly record struct Char6 : ICodabarChar
 
 public readonly record struct Char7 : ICodabarChar
 {
-    public char Char { get; init; }
+    public char Char { get; }
     public Pattern Pattern { get; init; }
 
     private Char7(char @char, Pattern pattern)
@@ -275,7 +275,7 @@ public readonly record struct Char7 : ICodabarChar
 
 public readonly record struct Char8 : ICodabarChar
 {
-    public char Char { get; init; }
+    public char Char { get; }
     public Pattern Pattern { get; init; }
 
     private Char8(char @char, Pattern pattern)
@@ -289,7 +289,7 @@ public readonly record struct Char8 : ICodabarChar
 
 public readonly record struct Char9 : ICodabarChar
 {
-    public char Char { get; init; }
+    public char Char { get; }
     public Pattern Pattern { get; init; }
 
     private Char9(char @char, Pattern pattern)
@@ -303,7 +303,7 @@ public readonly record struct Char9 : ICodabarChar
 
 public readonly record struct CharA : ICodabarChar
 {
-    public char Char { get; init; }
+    public char Char { get; }
     public Pattern Pattern { get; init; }
 
     private CharA(char @char, Pattern pattern)
@@ -317,7 +317,7 @@ public readonly record struct CharA : ICodabarChar
 
 public readonly record struct CharB : ICodabarChar
 {
-    public char Char { get; init; }
+    public char Char { get; }
     public Pattern Pattern { get; init; }
 
     private CharB(char @char, Pattern pattern)
@@ -331,7 +331,7 @@ public readonly record struct CharB : ICodabarChar
 
 public readonly record struct CharC : ICodabarChar
 {
-    public char Char { get; init; }
+    public char Char { get; }
     public Pattern Pattern { get; init; }
 
     private CharC(char @char, Pattern pattern)
@@ -345,7 +345,7 @@ public readonly record struct CharC : ICodabarChar
 
 public readonly record struct CharD : ICodabarChar
 {
-    public char Char { get; init; }
+    public char Char { get; }
     public Pattern Pattern { get; init; }
 
     private CharD(char @char, Pattern pattern)
@@ -359,7 +359,7 @@ public readonly record struct CharD : ICodabarChar
 
 public readonly record struct CharT : ICodabarChar
 {
-    public char Char { get; init; }
+    public char Char { get; }
     public Pattern Pattern { get; init; }
 
     private CharT(char @char, Pattern pattern)
@@ -373,7 +373,7 @@ public readonly record struct CharT : ICodabarChar
 
 public readonly record struct CharN : ICodabarChar
 {
-    public char Char { get; init; }
+    public char Char { get; }
     public Pattern Pattern { get; init; }
 
     private CharN(char @char, Pattern pattern)
@@ -387,7 +387,7 @@ public readonly record struct CharN : ICodabarChar
 
 public readonly record struct CharStar : ICodabarChar
 {
-    public char Char { get; init; }
+    public char Char { get; }
     public Pattern Pattern { get; init; }
 
     private CharStar(char @char, Pattern pattern)
@@ -401,7 +401,7 @@ public readonly record struct CharStar : ICodabarChar
 
 public readonly record struct CharE : ICodabarChar
 {
-    public char Char { get; init; }
+    public char Char { get; }
     public Pattern Pattern { get; init; }
 
     private CharE(char @char, Pattern pattern)
@@ -415,7 +415,7 @@ public readonly record struct CharE : ICodabarChar
 
 public readonly record struct CharHyphen : ICodabarChar
 {
-    public char Char { get; init; }
+    public char Char { get; }
     public Pattern Pattern { get; init; }
 
     private CharHyphen(char @char, Pattern pattern)
@@ -429,7 +429,7 @@ public readonly record struct CharHyphen : ICodabarChar
 
 public readonly record struct CharDollar : ICodabarChar
 {
-    public char Char { get; init; }
+    public char Char { get; }
     public Pattern Pattern { get; init; }
 
     private CharDollar(char @char, Pattern pattern)
@@ -443,7 +443,7 @@ public readonly record struct CharDollar : ICodabarChar
 
 public readonly record struct CharColon : ICodabarChar
 {
-    public char Char { get; init; }
+    public char Char { get; }
     public Pattern Pattern { get; init; }
 
     private CharColon(char @char, Pattern pattern)
@@ -457,7 +457,7 @@ public readonly record struct CharColon : ICodabarChar
 
 public readonly record struct CharForwardSlash : ICodabarChar
 {
-    public char Char { get; init; }
+    public char Char { get; }
     public Pattern Pattern { get; init; }
 
     private CharForwardSlash(char @char, Pattern pattern)
@@ -471,7 +471,7 @@ public readonly record struct CharForwardSlash : ICodabarChar
 
 public readonly record struct CharDot : ICodabarChar
 {
-    public char Char { get; init; }
+    public char Char { get; }
     public Pattern Pattern { get; init; }
 
     private CharDot(char @char, Pattern pattern)
@@ -485,7 +485,7 @@ public readonly record struct CharDot : ICodabarChar
 
 public readonly record struct CharPlus : ICodabarChar
 {
-    public char Char { get; init; }
+    public char Char { get; }
     public Pattern Pattern { get; init; }
 
     private CharPlus(char @char, Pattern pattern)
@@ -497,5 +497,100 @@ public readonly record struct CharPlus : ICodabarChar
     public static CharPlus Create() => new('+', Pattern.CharPlus);
 }
 
-public readonly record struct CodabarBarcode(params ICodabarChar[] @Chars);
+public readonly record struct CodabarBarcode
+{
+    public IReadOnlyList<ICodabarChar> Chars { get; init; }
+
+    private CodabarBarcode(IReadOnlyList<ICodabarChar> @chars)
+    {
+        Chars = @chars;
+    }
+
+    private static CodabarBarcode Create(params ICodabarChar[] @chars) => new(@chars);
+
+    public static Option<CodabarBarcode> TryCreate(string chars)
+    {
+        var array = chars
+            .ToCharArray()
+            .Where(CodabarChars.IsCodabarChar)
+            .Select(CodabarChars.TryGet)
+            .Where(o => o.IsSome)
+            .Select(o => o.Value)
+            .ToArray();
+        
+        return array.Length > 0 ? Create(array) : Option<CodabarBarcode>.None;
+    }
+}
+
+public static class CodabarBarcodeExtensions
+{
+    public static string Print(this Option<CodabarBarcode> barcode, PrintOptions options)
+        => barcode.Match(some => some.Print(options), () => string.Empty);    
+    
+    private static string Print(this CodabarBarcode barcode, PrintOptions options)
+        => string.Join(options.SpacePrintOptions.Narrow, barcode.Chars.Select(c => c.Print(options)));
+}
+
+public static class CodabarChars
+{
+    private static Char0      Char0 =      Char0.Create();
+    private static Char1      Char1 =      Char1.Create();
+    private static Char2      Char2 =      Char2.Create();
+    private static Char3      Char3 =      Char3.Create();
+    private static Char4      Char4 =      Char4.Create();
+    private static Char5      Char5 =      Char5.Create();
+    private static Char6      Char6 =      Char6.Create();
+    private static Char7      Char7 =      Char7.Create();
+    private static Char8      Char8 =      Char8.Create();
+    private static Char9      Char9 =      Char9.Create();
+    private static CharA      CharA =      CharA.Create();
+    private static CharB      CharB =      CharB.Create();
+    private static CharC      CharC =      CharC.Create();
+    private static CharD      CharD =      CharD.Create();
+    private static CharColon  CharColon =  CharColon.Create();
+    private static CharDollar CharDollar = CharDollar.Create();
+    private static CharDot    CharDot =    CharDot.Create();
+    private static CharHyphen CharHyphen = CharHyphen.Create();
+    private static CharForwardSlash CharForwardSlash = CharForwardSlash.Create();
+    private static CharPlus   CharPlus =   CharPlus.Create();
+    private static CharStar   CharStar =   CharStar.Create();
+    private static CharE      CharE =      CharE.Create();
+    private static CharN      CharN =      CharN.Create();
+    private static CharT      CharT =      CharT.Create();
+    
+    private static Dictionary<char, ICodabarChar> Dict => new()
+    {
+        { Char0.Char,      Char0 },
+        { Char1.Char,      Char1 },
+        { Char2.Char,      Char2 },
+        { Char3.Char,      Char3 },
+        { Char4.Char,      Char4 },
+        { Char5.Char,      Char5 },
+        { Char6.Char,      Char6 },
+        { Char7.Char,      Char7 },
+        { Char8.Char,      Char8 },
+        { Char9.Char,      Char9 },
+        { CharA.Char,      CharA },
+        { CharB.Char,      CharB },
+        { CharC.Char,      CharC },
+        { CharD.Char,      CharD },
+        { CharColon.Char,  CharColon },
+        { CharDollar.Char, CharDollar },
+        { CharDot.Char,    CharDot },
+        { CharHyphen.Char, CharHyphen },
+        { CharForwardSlash.Char, CharForwardSlash },
+        { CharPlus.Char,   CharPlus },
+        { CharStar.Char,   CharStar },
+        { CharE.Char,      CharE },
+        { CharN.Char,      CharN },
+        { CharT.Char,      CharT },
+    };
+
+    public static bool IsCodabarChar(char @char) => Dict.ContainsKey(@char);
+
+    public static Option<ICodabarChar> TryGet(char @char)
+        => IsCodabarChar(@char) ? Option<ICodabarChar>.Some(Dict[@char]) : Option<ICodabarChar>.None;
+}
+
+
 

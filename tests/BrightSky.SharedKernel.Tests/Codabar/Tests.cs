@@ -38,4 +38,14 @@ public class Tests
         
         Assert.Equal(expected, actual);
     }
+    
+    [Fact]
+    public void CodabarBarcode_TryCreate_And_Print_AsExpected()
+    {
+        var expected = "| | |  [ | | [  | | |  | [";
+        
+        var actual = CodabarBarcode.TryCreate("012").Print(Options);
+        
+        Assert.Equal(expected, actual);
+    }
 }
