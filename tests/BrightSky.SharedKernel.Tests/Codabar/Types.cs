@@ -1,6 +1,5 @@
 ﻿namespace BrightSky.SharedKernel.Tests.Codabar;
 
-
 // See: https://www.lido.app/inventory/codabar-barcode
 // See: https://web.archive.org/web/20160415005614/http://www.barcodeman.com/info/codabar.php
 // See: https://en.wikipedia.org/wiki/Codabar
@@ -166,11 +165,7 @@ public readonly record struct Char0 : ICodabarChar
     public char Char { get; }
     public Pattern Pattern { get; init; }
 
-    private Char0(char @char, Pattern pattern)
-    {
-        Char = @char;
-        Pattern = pattern;
-    }
+    private Char0(char @char, Pattern pattern) => (Char, Pattern) = (@char, pattern);
 
     public static Char0 Create() => new('0', Pattern.Char0);
 }
@@ -180,11 +175,7 @@ public readonly record struct Char1 : ICodabarChar
     public char Char { get; }
     public Pattern Pattern { get; init; }
 
-    private Char1(char @char, Pattern pattern)
-    {
-        Char = @char;
-        Pattern = pattern;
-    }
+    private Char1(char @char, Pattern pattern) => (Char, Pattern) = (@char, pattern);
 
     public static Char1 Create() => new('1', Pattern.Char1);
 }
@@ -194,11 +185,7 @@ public readonly record struct Char2 : ICodabarChar
     public char Char { get; }
     public Pattern Pattern { get; init; }
 
-    private Char2(char @char, Pattern pattern)
-    {
-        Char = @char;
-        Pattern = pattern;
-    }
+    private Char2(char @char, Pattern pattern) => (Char, Pattern) = (@char, pattern);
 
     public static Char2 Create() => new('2', Pattern.Char2);
 }
@@ -208,11 +195,7 @@ public readonly record struct Char3 : ICodabarChar
     public char Char { get; }
     public Pattern Pattern { get; init; }
 
-    private Char3(char @char, Pattern pattern)
-    {
-        Char = @char;
-        Pattern = pattern;
-    }
+    private Char3(char @char, Pattern pattern) => (Char, Pattern) = (@char, pattern);
 
     public static Char3 Create() => new('3', Pattern.Char3);
 }
@@ -222,11 +205,7 @@ public readonly record struct Char4 : ICodabarChar
     public char Char { get; }
     public Pattern Pattern { get; init; }
 
-    private Char4(char @char, Pattern pattern)
-    {
-        Char = @char;
-        Pattern = pattern;
-    }
+    private Char4(char @char, Pattern pattern) => (Char, Pattern) = (@char, pattern);
 
     public static Char4 Create() => new('4', Pattern.Char4);
 }
@@ -236,11 +215,7 @@ public readonly record struct Char5 : ICodabarChar
     public char Char { get; }
     public Pattern Pattern { get; init; }
 
-    private Char5(char @char, Pattern pattern)
-    {
-        Char = @char;
-        Pattern = pattern;
-    }
+    private Char5(char @char, Pattern pattern) => (Char, Pattern) = (@char, pattern);
 
     public static Char5 Create() => new('5', Pattern.Char5);
 }
@@ -250,11 +225,7 @@ public readonly record struct Char6 : ICodabarChar
     public char Char { get; }
     public Pattern Pattern { get; init; }
 
-    private Char6(char @char, Pattern pattern)
-    {
-        Char = @char;
-        Pattern = pattern;
-    }
+    private Char6(char @char, Pattern pattern) => (Char, Pattern) = (@char, pattern);
 
     public static Char6 Create() => new('6', Pattern.Char6);
 }
@@ -264,11 +235,7 @@ public readonly record struct Char7 : ICodabarChar
     public char Char { get; }
     public Pattern Pattern { get; init; }
 
-    private Char7(char @char, Pattern pattern)
-    {
-        Char = @char;
-        Pattern = pattern;
-    }
+    private Char7(char @char, Pattern pattern) => (Char, Pattern) = (@char, pattern);
 
     public static Char7 Create() => new('7', Pattern.Char7);
 }
@@ -278,11 +245,7 @@ public readonly record struct Char8 : ICodabarChar
     public char Char { get; }
     public Pattern Pattern { get; init; }
 
-    private Char8(char @char, Pattern pattern)
-    {
-        Char = @char;
-        Pattern = pattern;
-    }
+    private Char8(char @char, Pattern pattern) => (Char, Pattern) = (@char, pattern);
 
     public static Char8 Create() => new('8', Pattern.Char8);
 }
@@ -292,11 +255,7 @@ public readonly record struct Char9 : ICodabarChar
     public char Char { get; }
     public Pattern Pattern { get; init; }
 
-    private Char9(char @char, Pattern pattern)
-    {
-        Char = @char;
-        Pattern = pattern;
-    }
+    private Char9(char @char, Pattern pattern) => (Char, Pattern) = (@char, pattern);
 
     public static Char9 Create() => new('9', Pattern.Char9);
 }
@@ -306,11 +265,7 @@ public readonly record struct CharA : ICodabarChar
     public char Char { get; }
     public Pattern Pattern { get; init; }
 
-    private CharA(char @char, Pattern pattern)
-    {
-        Char = @char;
-        Pattern = pattern;
-    }
+    private CharA(char @char, Pattern pattern) => (Char, Pattern) = (@char, pattern);
 
     public static CharA Create() => new('A', Pattern.CharA);
 }
@@ -320,11 +275,7 @@ public readonly record struct CharB : ICodabarChar
     public char Char { get; }
     public Pattern Pattern { get; init; }
 
-    private CharB(char @char, Pattern pattern)
-    {
-        Char = @char;
-        Pattern = pattern;
-    }
+    private CharB(char @char, Pattern pattern) => (Char, Pattern) = (@char, pattern);
 
     public static CharB Create() => new('B', Pattern.CharB);
 }
@@ -334,11 +285,7 @@ public readonly record struct CharC : ICodabarChar
     public char Char { get; }
     public Pattern Pattern { get; init; }
 
-    private CharC(char @char, Pattern pattern)
-    {
-        Char = @char;
-        Pattern = pattern;
-    }
+    private CharC(char @char, Pattern pattern) => (Char, Pattern) = (@char, pattern);
 
     public static CharC Create() => new('C', Pattern.CharC);
 }
@@ -348,11 +295,7 @@ public readonly record struct CharD : ICodabarChar
     public char Char { get; }
     public Pattern Pattern { get; init; }
 
-    private CharD(char @char, Pattern pattern)
-    {
-        Char = @char;
-        Pattern = pattern;
-    }
+    private CharD(char @char, Pattern pattern) => (Char, Pattern) = (@char, pattern);
 
     public static CharD Create() => new('D', Pattern.CharD);
 }
@@ -362,11 +305,7 @@ public readonly record struct CharT : ICodabarChar
     public char Char { get; }
     public Pattern Pattern { get; init; }
 
-    private CharT(char @char, Pattern pattern)
-    {
-        Char = @char;
-        Pattern = pattern;
-    }
+    private CharT(char @char, Pattern pattern) => (Char, Pattern) = (@char, pattern);
 
     public static CharT Create() => new('T', Pattern.CharT);
 }
@@ -376,11 +315,7 @@ public readonly record struct CharN : ICodabarChar
     public char Char { get; }
     public Pattern Pattern { get; init; }
 
-    private CharN(char @char, Pattern pattern)
-    {
-        Char = @char;
-        Pattern = pattern;
-    }
+    private CharN(char @char, Pattern pattern) => (Char, Pattern) = (@char, pattern);
 
     public static CharN Create() => new('N', Pattern.CharN);
 }
@@ -390,11 +325,7 @@ public readonly record struct CharStar : ICodabarChar
     public char Char { get; }
     public Pattern Pattern { get; init; }
 
-    private CharStar(char @char, Pattern pattern)
-    {
-        Char = @char;
-        Pattern = pattern;
-    }
+    private CharStar(char @char, Pattern pattern) => (Char, Pattern) = (@char, pattern);
 
     public static CharStar Create() => new('*', Pattern.CharStar);
 }
@@ -404,11 +335,7 @@ public readonly record struct CharE : ICodabarChar
     public char Char { get; }
     public Pattern Pattern { get; init; }
 
-    private CharE(char @char, Pattern pattern)
-    {
-        Char = @char;
-        Pattern = pattern;
-    }
+    private CharE(char @char, Pattern pattern) => (Char, Pattern) = (@char, pattern);
 
     public static CharE Create() => new('E', Pattern.CharE);
 }
@@ -418,11 +345,7 @@ public readonly record struct CharHyphen : ICodabarChar
     public char Char { get; }
     public Pattern Pattern { get; init; }
 
-    private CharHyphen(char @char, Pattern pattern)
-    {
-        Char = @char;
-        Pattern = pattern;
-    }
+    private CharHyphen(char @char, Pattern pattern) => (Char, Pattern) = (@char, pattern);
 
     public static CharHyphen Create() => new('-', Pattern.CharHyphen);
 }
@@ -432,11 +355,7 @@ public readonly record struct CharDollar : ICodabarChar
     public char Char { get; }
     public Pattern Pattern { get; init; }
 
-    private CharDollar(char @char, Pattern pattern)
-    {
-        Char = @char;
-        Pattern = pattern;
-    }
+    private CharDollar(char @char, Pattern pattern) => (Char, Pattern) = (@char, pattern);
 
     public static CharDollar Create() => new('$', Pattern.CharDollar);
 }
@@ -446,11 +365,7 @@ public readonly record struct CharColon : ICodabarChar
     public char Char { get; }
     public Pattern Pattern { get; init; }
 
-    private CharColon(char @char, Pattern pattern)
-    {
-        Char = @char;
-        Pattern = pattern;
-    }
+    private CharColon(char @char, Pattern pattern) => (Char, Pattern) = (@char, pattern);
 
     public static CharColon Create() => new(':', Pattern.CharColon);
 }
@@ -460,11 +375,7 @@ public readonly record struct CharForwardSlash : ICodabarChar
     public char Char { get; }
     public Pattern Pattern { get; init; }
 
-    private CharForwardSlash(char @char, Pattern pattern)
-    {
-        Char = @char;
-        Pattern = pattern;
-    }
+    private CharForwardSlash(char @char, Pattern pattern) => (Char, Pattern) = (@char, pattern);
 
     public static CharForwardSlash Create() => new('/', Pattern.CharForwardSlash);
 }
@@ -474,11 +385,7 @@ public readonly record struct CharDot : ICodabarChar
     public char Char { get; }
     public Pattern Pattern { get; init; }
 
-    private CharDot(char @char, Pattern pattern)
-    {
-        Char = @char;
-        Pattern = pattern;
-    }
+    private CharDot(char @char, Pattern pattern) => (Char, Pattern) = (@char, pattern);
 
     public static CharDot Create() => new('.', Pattern.CharDot);
 }
@@ -488,11 +395,7 @@ public readonly record struct CharPlus : ICodabarChar
     public char Char { get; }
     public Pattern Pattern { get; init; }
 
-    private CharPlus(char @char, Pattern pattern)
-    {
-        Char = @char;
-        Pattern = pattern;
-    }
+    private CharPlus(char @char, Pattern pattern) => (Char, Pattern) = (@char, pattern);
 
     public static CharPlus Create() => new('+', Pattern.CharPlus);
 }
@@ -533,30 +436,30 @@ public static class CodabarBarcodeExtensions
 
 public static class CodabarChars
 {
-    private static Char0      Char0 =      Char0.Create();
-    private static Char1      Char1 =      Char1.Create();
-    private static Char2      Char2 =      Char2.Create();
-    private static Char3      Char3 =      Char3.Create();
-    private static Char4      Char4 =      Char4.Create();
-    private static Char5      Char5 =      Char5.Create();
-    private static Char6      Char6 =      Char6.Create();
-    private static Char7      Char7 =      Char7.Create();
-    private static Char8      Char8 =      Char8.Create();
-    private static Char9      Char9 =      Char9.Create();
-    private static CharA      CharA =      CharA.Create();
-    private static CharB      CharB =      CharB.Create();
-    private static CharC      CharC =      CharC.Create();
-    private static CharD      CharD =      CharD.Create();
-    private static CharColon  CharColon =  CharColon.Create();
-    private static CharDollar CharDollar = CharDollar.Create();
-    private static CharDot    CharDot =    CharDot.Create();
-    private static CharHyphen CharHyphen = CharHyphen.Create();
-    private static CharForwardSlash CharForwardSlash = CharForwardSlash.Create();
-    private static CharPlus   CharPlus =   CharPlus.Create();
-    private static CharStar   CharStar =   CharStar.Create();
-    private static CharE      CharE =      CharE.Create();
-    private static CharN      CharN =      CharN.Create();
-    private static CharT      CharT =      CharT.Create();
+    private static readonly Char0      Char0 =      Char0.Create();
+    private static readonly Char1      Char1 =      Char1.Create();
+    private static readonly Char2      Char2 =      Char2.Create();
+    private static readonly Char3      Char3 =      Char3.Create();
+    private static readonly Char4      Char4 =      Char4.Create();
+    private static readonly Char5      Char5 =      Char5.Create();
+    private static readonly Char6      Char6 =      Char6.Create();
+    private static readonly Char7      Char7 =      Char7.Create();
+    private static readonly Char8      Char8 =      Char8.Create();
+    private static readonly Char9      Char9 =      Char9.Create();
+    private static readonly CharA      CharA =      CharA.Create();
+    private static readonly CharB      CharB =      CharB.Create();
+    private static readonly CharC      CharC =      CharC.Create();
+    private static readonly CharD      CharD =      CharD.Create();
+    private static readonly CharColon  CharColon =  CharColon.Create();
+    private static readonly CharDollar CharDollar = CharDollar.Create();
+    private static readonly CharDot    CharDot =    CharDot.Create();
+    private static readonly CharHyphen CharHyphen = CharHyphen.Create();
+    private static readonly CharForwardSlash CharForwardSlash = CharForwardSlash.Create();
+    private static readonly CharPlus   CharPlus =   CharPlus.Create();
+    private static readonly CharStar   CharStar =   CharStar.Create();
+    private static readonly CharE      CharE =      CharE.Create();
+    private static readonly CharN      CharN =      CharN.Create();
+    private static readonly CharT      CharT =      CharT.Create();
     
     private static Dictionary<char, ICodabarChar> Dict => new()
     {
@@ -591,6 +494,3 @@ public static class CodabarChars
     public static Option<ICodabarChar> TryGet(char @char)
         => IsCodabarChar(@char) ? Option<ICodabarChar>.Some(Dict[@char]) : Option<ICodabarChar>.None;
 }
-
-
-
