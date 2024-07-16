@@ -4,11 +4,7 @@ public readonly record struct Option<TValue>
 {
     private readonly TValue _value;
 
-    private Option(TValue value)
-    {
-        IsSome = true;
-        _value = value;
-    }
+    private Option(TValue value) => (IsSome, _value) = (true, value);
 
     public readonly bool IsSome;
     public bool IsNone => !IsSome;
@@ -23,36 +19,21 @@ public readonly record struct Option<TValue>
 
 public static class OptionExtensions
 {
-    public static TResult Match
-        <TValue, TResult>(
-            this Option<TValue> option,
-            Func<TValue, TResult> some,
-            Func<TResult> none)
+    public static TResult Match<TValue, TResult>(this Option<TValue> option, Func<TValue, TResult> some, Func<TResult> none)
         => option.IsSome ? some(option.Value) : none();
-    
-    public static Option<TResult> Map
-        <TValue, TResult>(
-            this Option<TValue> option,
-            Func<TValue, TResult> map)
-        => option.IsSome ? Option<TResult>.Some(map(option.Value)) : Option<TResult>.None;
 
-    public static Option<TResult> Bind
-        <TValue, TResult>(
-            this Option<TValue> option,
-            Func<TValue, Option<TResult>> bind)
-        => option.IsSome ? bind(option.Value) : Option<TResult>.None;
+    public static Option<TResult> Map<TValue, TResult>(this Option<TValue> option, Func<TValue, TResult> map)
+        => option.Match(some => map(some), () => Option<TResult>.None);
 
-    public static Option<TValue> Tap
-        <TValue>(
-            this Option<TValue> option,
-            Action<TValue> action)
+    public static Option<TResult> Bind<TValue, TResult>(this Option<TValue> option, Func<TValue, Option<TResult>> bind)
+        => option.Match(bind, () => Option<TResult>.None);
+
+    public static Option<TValue> Tap<TValue>(this Option<TValue> option, Action<TValue> action)
     {
         if (option.IsSome) action(option.Value);
         return option;
     }
-    
-    public static TValue Reduce
-        <TValue>(
-            this Option<TValue> option, TValue @default)
-        => option.IsSome ? option.Value : @default;
+
+    public static TValue Reduce<TValue>(this Option<TValue> option, TValue @default)
+        => option.Match(some => some, () => @default);
 }

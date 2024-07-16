@@ -9,11 +9,7 @@ public readonly record struct Error
     public readonly ErrorType Type;
 
     private Error(string code, string description, ErrorType type)
-    {
-        Code = code;
-        Description = description;
-        Type = type;
-    }
+        => (Code, Description, Type) = (code, description, type);
 
     public static Error Failure(string code, string description)
         => new(code, description, ErrorType.Failure);
