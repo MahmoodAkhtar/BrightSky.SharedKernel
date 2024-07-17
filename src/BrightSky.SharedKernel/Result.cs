@@ -21,24 +21,24 @@ public readonly record struct Result<TValue, TError>
 public static class ResultExtensions
 {
     public static TResult Match<TValue, TError, TResult>(
-        this Result<TValue, TError> result,
-        Func<TValue, TResult> success,
+        this Result<TValue, TError> result, 
+        Func<TValue, TResult> success, 
         Func<TError, TResult> failure) 
         => result.IsSuccess ? success(result.Value!) : failure(result.Error!);
     
     public static Result<TOut, TError> Bind<TIn, TError, TOut>(
-        this Result<TIn, TError> result,
+        this Result<TIn, TError> result, 
         Func<TIn, Result<TOut, TError>> bind)
         => result.Match(bind, error => error);
 
     public static Result<TIn, TError> Ensure<TIn, TError>(
-        this Result<TIn, TError> result,
-        Func<TIn, bool> predicate,
+        this Result<TIn, TError> result, 
+        Func<TIn, bool> predicate, 
         TError error)
         => result.Match(success => predicate(success) ? result : error, _ => result);
 
     public static Result<TIn, TError> Ensure<TIn, TError>(
-        this Result<TIn, TError> result,
+        this Result<TIn, TError> result, 
         params (Func<TIn, bool> predicate, TError error)[] predicates)
     {
         var results = new List<Result<TIn, TError>>();
@@ -47,27 +47,25 @@ public static class ResultExtensions
         return Combine(results);
     }
 
-    public static Result<TOut, TError> Map<TIn, TError, TOut>(
-        this Result<TIn, TError> result,
-        Func<TIn, TOut> map)
+    public static Result<TOut, TError> Map<TIn, TError, TOut>(this Result<TIn, TError> result, Func<TIn, TOut> map)
         => result.Match(success => Result<TOut, TError>.Success(map(success)), Result<TOut, TError>.Failure);
 
-    public static Result<TIn, TError> Tap<TIn, TError>(
-        this Result<TIn, TError> result,
-        Action<TIn> action)
+    public static Result<TIn, TError> Tap<TIn, TError>(this Result<TIn, TError> result, Action<TIn> action)
     {
         if (result.IsSuccess) action(result.Value!);
         return result;
     }
 
     public static Result<TOut, TError> TryCatch<TIn, TError, TOut>(
-        this Result<TIn, TError> result,
-        Func<TIn, TOut> tryMap,
+        this Result<TIn, TError> result, 
+        Func<TIn, TOut> tryMap, 
         TError catchError)
     {
         try
         {
-            return result.Match(success => Result<TOut, TError>.Success(tryMap(success)), Result<TOut, TError>.Failure); //result.IsSuccess ? tryMap(result.Value!) : result.Error!;
+            return result.Match(
+                success => Result<TOut, TError>.Success(tryMap(success)), 
+                Result<TOut, TError>.Failure);
         }
         catch
         {
@@ -76,13 +74,15 @@ public static class ResultExtensions
     }
 
     public static Result<TOut, TError> TryCatch<TIn, TError, TOut>(
-        this Result<TIn, TError> result,
-        Func<TIn, TOut> tryMap,
+        this Result<TIn, TError> result, 
+        Func<TIn, TOut> tryMap, 
         Func<Exception, TError> catchMapException)
     {
         try
         {
-            return result.Match(success => Result<TOut, TError>.Success(tryMap(success)), Result<TOut, TError>.Failure); //result.IsSuccess ? tryMap(result.Value!) : result.Error!;
+            return result.Match(
+                success => Result<TOut, TError>.Success(tryMap(success)), 
+                Result<TOut, TError>.Failure);
         }
         catch (Exception e)
         {
@@ -91,14 +91,16 @@ public static class ResultExtensions
     }
 
     public static Result<TOut, TError> TryCatch<TIn, TError, TOut>(
-        this Result<TIn, TError> result,
-        Func<TIn, TOut> tryMap,
-        Action<Exception> catchAction,
+        this Result<TIn, TError> result, 
+        Func<TIn, TOut> tryMap, 
+        Action<Exception> catchAction, 
         TError catchError)
     {
         try
         {
-            return result.Match(success => Result<TOut, TError>.Success(tryMap(success)), Result<TOut, TError>.Failure); //result.IsSuccess ? tryMap(result.Value!) : result.Error!;
+            return result.Match(
+                success => Result<TOut, TError>.Success(tryMap(success)), 
+                Result<TOut, TError>.Failure);
         }
         catch (Exception e)
         {
@@ -108,14 +110,16 @@ public static class ResultExtensions
     }
 
     public static Result<TOut, TError> TryCatch<TIn, TError, TOut>(
-        this Result<TIn, TError> result,
-        Func<TIn, TOut> tryMap,
-        Action<Exception> catchAction,
+        this Result<TIn, TError> result, 
+        Func<TIn, TOut> tryMap, 
+        Action<Exception> catchAction, 
         Func<Exception, TError> catchMapException)
     {
         try
         {
-            return result.Match(success => Result<TOut, TError>.Success(tryMap(success)), Result<TOut, TError>.Failure); //result.IsSuccess ? tryMap(result.Value!) : result.Error!;
+            return result.Match(
+                success => Result<TOut, TError>.Success(tryMap(success)), 
+                Result<TOut, TError>.Failure);
         }
         catch (Exception e)
         {
@@ -124,13 +128,9 @@ public static class ResultExtensions
         }
     }
     
-    public static Result<TValue, TError> Combine<TValue, TError>(
-        this Result<TValue, TError>[] results)
-        => results.Any(x => x.IsFailure)
-            ? results.Select(x => x.Error!).First() 
-            : results[0].Value!;
+    public static Result<TValue, TError> Combine<TValue, TError>(this Result<TValue, TError>[] results)
+        => results.Any(r => r.IsFailure) ? results.Select(r => r.Error!).First() : results[0].Value!;
 
-    public static Result<TValue, TError> Combine<TValue, TError>(
-        this IEnumerable<Result<TValue, TError>> results)
+    public static Result<TValue, TError> Combine<TValue, TError>(this IEnumerable<Result<TValue, TError>> results)
         => Combine(results.ToArray());
 }
