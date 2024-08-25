@@ -15,7 +15,7 @@ public static class Precondition
                     : Result<TValue, Option<Error>>.Failure(Error.Failure(
                         $"Precondition.{specification.GetType().Name}",
                         $"Specification {specification.GetType().Name} was not met")),
-            Option<Error>.Some);
+            failure => Result<TValue, Option<Error>>.Failure(failure));
     
     public static TValue ThenAssignOrThrow<TValue, TException>(this Result<TValue, Option<Error>> result)
         where TException : Exception
