@@ -30,16 +30,27 @@ public class EnumerationTests
         Assert.Equal<HtmlColor>(hc1, hc2);
     }
     
-        
     [Fact]
     public void EnumerationTest3()
     {
         var hc1 = HtmlColor.IndianRed;
         var op = HtmlColor.FromValue(hc1.Value);
-        var action = op.Match<HtmlColor, Action>(
+        var assert = op.Match<HtmlColor, Action>(
             some => () => Assert.Equal(hc1, some), 
             () => () => Assert.Fail());
 
-        action();
+        assert();
+    }    
+    
+    [Fact]
+    public void EnumerationTest4()
+    {
+        var hc1 = HtmlColor.IndianRed;
+        var op = HtmlColor.FromName(hc1.Name);
+        var assert = op.Match<HtmlColor, Action>(
+            some => () => Assert.Equal(hc1, some), 
+            () => () => Assert.Fail());
+
+        assert();
     }
 }
