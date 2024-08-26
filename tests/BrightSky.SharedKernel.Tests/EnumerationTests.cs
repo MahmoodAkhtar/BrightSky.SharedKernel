@@ -1,14 +1,41 @@
-﻿namespace BrightSky.SharedKernel.Tests;
+﻿using System.Linq.Expressions;
+
+namespace BrightSky.SharedKernel.Tests;
 
 public class EnumerationTests
 {
-    public record HtmlColor : Enumeration<HtmlColor, string>
+    public record struct HexCode
     {
-        public static HtmlColor IndianRed => new HtmlColor(nameof(IndianRed), "#CD5C5C");
-        public static HtmlColor LightCoral => new HtmlColor(nameof(LightCoral), "#F08080");
-        public static HtmlColor Salmon => new HtmlColor(nameof(Salmon), "#FA8072");
+        private static readonly Specification<string?> HexCodeSpec = new HexCodeSpecification();
         
-        private HtmlColor(string name, string value) : base(name, value)
+        private readonly string _value;
+        
+        private HexCode(string value) =>
+            _value = Precondition.Requires(value).Meets(HexCodeSpec!).ThenAssignOrThrow<string, ArgumentException>();
+        
+        public static HexCode Create(string value) => new(value);
+
+        public static implicit operator string(HexCode value) => value._value;
+        public static explicit operator HexCode(string value) => Create(value);
+
+        private class HexCodeSpecification : Specification<string?>
+        {
+            public override Expression<Func<string?, bool>> ToExpression()
+                => s => !string.IsNullOrWhiteSpace(s) 
+                        && s.Length == 7 
+                        && s.StartsWith('#') 
+                        && s.ToUpper().All(c => "#0123456789ABCDEF".Contains(c));
+        }
+
+    }
+    
+    public record HtmlColor : Enumeration<HtmlColor, HexCode>
+    {
+        public static HtmlColor IndianRed => new HtmlColor(nameof(IndianRed), HexCode.Create("#CD5C5C"));
+        public static HtmlColor LightCoral => new HtmlColor(nameof(LightCoral), HexCode.Create("#F08080"));
+        public static HtmlColor Salmon => new HtmlColor(nameof(Salmon), HexCode.Create("#FA8072"));
+        
+        private HtmlColor(string name, HexCode value) : base(name, value)
         {
         }
     }
@@ -18,7 +45,7 @@ public class EnumerationTests
     {
         var hc = HtmlColor.IndianRed;
 
-        Assert.IsAssignableFrom<Enumeration<HtmlColor, string>>(hc);
+        Assert.IsAssignableFrom<Enumeration<HtmlColor, HexCode>>(hc);
     }
     
     [Fact]
