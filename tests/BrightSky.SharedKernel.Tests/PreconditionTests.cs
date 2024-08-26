@@ -69,7 +69,7 @@ public class PreconditionTests
     public void PreconditionThenAssignOrThrow_When_ResultIsFailure_Throw_Exception()
     {
         var error = Error.Failure("MyCode", "Some description");
-        var expected = $"{Error.GetNameFor(error.Type)} {error.Code} {error.Description}";
+        var expected = $"{error.Type.Name} {error.Code} {error.Description}";
         string? actual = default;
         
         try
@@ -88,7 +88,7 @@ public class PreconditionTests
     public void PreconditionThenAssignOrThrow_When_ResultIsFailure_Throw_ArgumentException()
     {
         var error = Error.Failure("MyCode", "Some description");
-        var expected = $"{Error.GetNameFor(error.Type)} {error.Code} {error.Description}";
+        var expected = $"{error.Type.Name} {error.Code} {error.Description}";
         string? actual = default;
         
         try
@@ -135,7 +135,7 @@ public class PreconditionTests
         var error = Error.Failure(
             $"Precondition.{specification.GetType().Name}",
             $"Specification {specification.GetType().Name} was not met");
-        var expected = $"{Error.GetNameFor(error.Type)} {error.Code} {error.Description}";
+        var expected = $"{error.Type.Name} {error.Code} {error.Description}";
         string? actual = default;
         
         try

@@ -24,7 +24,7 @@ public static class Precondition
                 success => success,
                 failure => failure
                     .Map(error => (TException)Activator.CreateInstance(typeof(TException),
-                        $"{Error.GetNameFor(error.Type)} {error.Code} {error.Description}")!)
+                        $"{error.Type.Name} {error.Code} {error.Description}")!)
                     .Tap(exception => throw exception))
             .Match(
                 success => success,

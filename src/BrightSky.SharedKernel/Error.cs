@@ -1,5 +1,21 @@
 ﻿namespace BrightSky.SharedKernel;
 
+public record ErrorType : Enumeration<ErrorType, int>
+{
+    public static ErrorType None => new(nameof(None), 0);
+    public static ErrorType Failure => new(nameof(Failure), 1);
+    public static ErrorType Unexpected => new(nameof(Unexpected), 2);
+    public static ErrorType Validation => new(nameof(Validation), 3);
+    public static ErrorType Conflict => new(nameof(Conflict), 4);
+    public static ErrorType NotFound => new(nameof(NotFound), 5);
+    public static ErrorType Unauthenticated => new(nameof(Unauthenticated), 6);
+    public static ErrorType Unauthorized => new(nameof(Unauthorized), 7);
+    
+    private ErrorType(string name, int value) : base(name, value)
+    {
+    }
+}
+
 public readonly record struct Error
 {
     public static Error None => new(string.Empty, string.Empty, ErrorType.None);
@@ -34,60 +50,4 @@ public readonly record struct Error
 
     public static Error FromException(Exception e)
         => Unexpected(e.GetType().Name, $"{e.Message} {e.StackTrace}");
-
-    public static string GetNameFor(ErrorType value)
-        => value switch
-        {
-            ErrorType.Conflict => nameof(ErrorType.Conflict),          
-            ErrorType.Unexpected => nameof(ErrorType.Unexpected),          
-            ErrorType.Validation => nameof(ErrorType.Validation),          
-            ErrorType.Unauthorized => nameof(ErrorType.Unauthorized),          
-            ErrorType.Unauthenticated => nameof(ErrorType.Unauthenticated),          
-            ErrorType.Failure => nameof(ErrorType.Failure),          
-            ErrorType.NotFound => nameof(ErrorType.NotFound),          
-            _ => nameof(ErrorType.None)
-        };
-}
-
-public enum ErrorType
-{
-    /// <summary>
-    /// Precondition and or an attempt for an external resource failed
-    /// </summary>
-    Failure,
-    
-    /// <summary>
-    /// Actual exception occured in the system
-    /// </summary>
-    Unexpected,
-    
-    /// <summary>
-    /// Validation failed
-    /// </summary>
-    Validation,
-    
-    /// <summary>
-    /// System state has progressed therefore unable to carry out desired action 
-    /// </summary>
-    Conflict,
-    
-    /// <summary>
-    /// Expected system resource is not found
-    /// </summary>
-    NotFound,
-    
-    /// <summary>
-    /// Not authenticated
-    /// </summary>
-    Unauthenticated,
-    
-    /// <summary>
-    /// Don't have permissions to carry out desired action
-    /// </summary>
-    Unauthorized,
-    
-    /// <summary>
-    /// For a None Error
-    /// </summary>
-    None
 }
